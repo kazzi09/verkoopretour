@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Retour Registratie - Cloud</title>
+<style>
+:root{--brand:#1d4ed8;--brand-dark:#17365d;--brand-grad:linear-gradient(135deg,#17365d 0%,#1d4ed8 60%,#3b82f6 100%);--bg:#eef2f7;--card:#fff;--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--green:#16a34a;--green-soft:#dcfce7;--red:#dc2626;--red-soft:#fee2e2;--radius:14px;--shadow:0 1px 3px rgba(15,23,42,.08),0 8px 24px rgba(15,23,42,.06)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
+.header{background:var(--brand-grad);color:#fff;padding:22px 16px 64px;text-align:center}
+.header h1{font-size:24px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:10px}
+.header p{margin-top:5px;font-size:14px;opacity:.85}
+.cloud-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.2);padding:4px 12px;border-radius:999px;font-size:12px;font-weight:700;margin-top:8px}
+.cloud-badge .dot{width:8px;height:8px;border-radius:50%;background:#fbbf24;animation:blink 1.5s infinite}
+.cloud-badge .dot.online{background:#4ade80;animation:none}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;max-width:900px;margin:-38px auto 0;padding:0 14px;position:relative;z-index:2}
+.stat{flex:1;min-width:140px;max-width:280px;background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 16px;display:flex;align-items:center;gap:12px}
+.stat .ico{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;background:#dbeafe}
+.stat:nth-child(2) .ico{background:var(--green-soft)}
+.stat:nth-child(3) .ico{background:#fef3c7}
+.stat .num{font-size:22px;font-weight:800;line-height:1.1}
+.stat .lbl{font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.4px}
+.container{max-width:900px;margin:18px auto 40px;padding:0 14px}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;margin-bottom:16px}
+.card h2{display:flex;align-items:center;gap:10px;font-size:17px;font-weight:800;color:var(--brand-dark);padding-bottom:12px;margin-bottom:16px;border-bottom:1px solid var(--line)}
+.step{width:26px;height:26px;border-radius:8px;background:var(--brand);color:#fff;font-size:14px;font-weight:800;display:flex;align-items:center;justify-content:center}
+label{display:block;font-size:13px;font-weight:700;color:#334155;margin:14px 0 6px}
+label:first-of-type{margin-top:0}
+input,select,textarea{width:100%;min-height:48px;padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;font-size:16px;font-family:inherit;color:var(--ink);background:#fff}
+textarea{min-height:88px;resize:vertical;line-height:1.45}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px rgba(29,78,216,.15)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.search-box{position:relative}
+.results{position:absolute;z-index:50;left:0;right:0;top:calc(100% + 4px);background:#fff;border:1.5px solid var(--line);border-radius:12px;max-height:280px;overflow-y:auto;box-shadow:0 12px 32px rgba(15,23,42,.16);display:none}
+.results.open{display:block}
+.result-item{padding:13px 14px;cursor:pointer;border-bottom:1px solid #f1f5f9}
+.result-item:hover{background:#eff6ff}
+.result-code{font-weight:800;color:var(--brand);font-size:14px}
+.result-name{font-size:13px;color:#334155;margin-top:2px}
+.result-none{padding:14px;color:var(--muted);font-size:14px;text-align:center}
+.selected{display:none;margin-top:8px;padding:12px 14px;border-radius:10px;background:var(--green-soft);border:1.5px solid #86efac;color:#14532d;font-size:14px;align-items:center;justify-content:space-between;gap:10px}
+.selected.show{display:flex}
+.selected .clear{border:none;background:none;cursor:pointer;font-size:18px;color:#14532d;opacity:.6;padding:6px}
+.btn{width:100%;min-height:50px;border:none;border-radius:12px;padding:14px 18px;font-size:16px;font-weight:800;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn:active{transform:scale(.98)}
+.btn-add{background:var(--green);color:#fff;margin-top:16px}
+.btn-save{background:var(--brand-grad);color:#fff;box-shadow:0 6px 16px rgba(29,78,216,.35)}
+.btn-new{background:#f1f5f9;color:#334155;border:1.5px solid var(--line)}
+.btn-export{background:#fff;color:var(--green);border:1.5px solid #86efac}
+.btn-delete{background:var(--red-soft);color:var(--red);border:none;border-radius:9px;padding:9px 14px;font-size:13px;font-weight:700;cursor:pointer;min-height:40px;font-family:inherit;margin-top:10px}
+.product-card{border:1.5px solid var(--line);border-left:5px solid var(--brand);border-radius:12px;padding:14px;margin-top:12px;background:#fbfdff}
+.product-card h3{font-size:15px;margin-bottom:6px}
+.product-card p{font-size:13.5px;color:#334155;margin:3px 0}
+.empty{text-align:center;color:var(--muted);padding:26px 16px;font-size:14.5px;border:1.5px dashed var(--line);border-radius:12px;margin-top:12px}
+.empty .big{font-size:30px;display:block;margin-bottom:6px}
+.retour-card{border:1.5px solid var(--line);border-left:5px solid var(--green);border-radius:12px;padding:16px;margin-bottom:12px;background:#f0fdf4}
+.retour-card h3{font-size:16px;color:var(--brand-dark)}
+.badge{display:inline-block;background:#dbeafe;color:#1e40af;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;margin-top:4px}
+.retour-card p{font-size:14px;color:#334155;margin:5px 0}
+.retour-card ul{margin:6px 0 4px 18px;font-size:14px}
+.retour-card li{margin:3px 0}
+.meta{font-size:12px;color:var(--muted);margin-top:8px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,80px);background:#0f172a;color:#fff;padding:14px 22px;border-radius:12px;font-size:14.5px;font-weight:700;opacity:0;transition:transform .3s,opacity .3s;z-index:100;pointer-events:none;max-width:calc(100vw - 32px);text-align:center}
+.toast.show{transform:translate(-50%,0);opacity:1}
+.toast.ok{background:var(--green)}
+.toast.err{background:var(--red)}
+.actions{display:grid;gap:10px}
+.sync-indicator{position:fixed;top:12px;right:12px;z-index:200;display:flex;align-items:center;gap:6px;background:#fff;padding:6px 12px;border-radius:999px;font-size:12px;font-weight:700;box-shadow:var(--shadow)}
+.sync-indicator .dot{width:8px;height:8px;border-radius:50%}
+.sync-indicator.syncing .dot{background:#fbbf24;animation:blink 1s infinite}
+.sync-indicator.synced .dot{background:#4ade80}
+.sync-indicator.error .dot{background:#f87171}
+@media (min-width:640px){.actions{grid-template-columns:2fr 1fr 1fr}}
+@media (max-width:600px){.header{padding:18px 14px 58px}.header h1{font-size:20px}.row{grid-template-columns:1fr}.card{padding:16px}.stat{min-width:calc(50% - 5px);padding:12px}.stat .num{font-size:19px}}
+</style>
+</head>
+<body>
+
+<div id="syncIndicator" class="sync-indicator syncing">
+  <span class="dot"></span>
+  <span id="syncText">Başlatılıyor...</span>
+</div>
+
+<header class="header">
+  <h1>🚚 Retour Registratie</h1>
+  <p>Registreer retouren snel en eenvoudig</p>
+  <div class="cloud-badge">
+    <span class="dot" id="cloudDot"></span>
+    <span id="cloudText">☁️ Cloud</span>
+  </div>
+</header>
+
+<div class="stats">
+  <div class="stat"><div class="ico">📦</div><div><div class="num" id="statRetours">0</div><div class="lbl">Retouren</div></div></div>
+  <div class="stat"><div class="ico">🧾</div><div><div class="num" id="statStuks">0</div><div class="lbl">Stuks</div></div></div>
+  <div class="stat"><div class="ico">👥</div><div><div class="num" id="statUsers">-</div><div class="lbl">Aktief</div></div></div>
+</div>
+
+<main class="container">
+
+<section class="card">
+  <h2><span class="step">1</span> Algemene gegevens</h2>
+  <div class="row">
+    <div><label for="datum">Datum</label><input type="date" id="datum"></div>
+    <div><label for="chauffeur">Chauffeur</label><input type="text" id="chauffeur" placeholder="Naam chauffeur"></div>
+  </div>
+  <label for="customerSearch">Retourklant</label>
+  <div class="search-box">
+    <input type="text" id="customerSearch" placeholder="Zoek klant..." autocomplete="off">
+    <div id="customerResults" class="results"></div>
+  </div>
+  <div id="selectedCustomer" class="selected"></div>
+  <label for="retourreden">Retourreden</label>
+  <select id="retourreden">
+    <option value="">-- Selecteer --</option>
+    <option>Verkeerd geleverd</option><option>Verkeerd besteld</option>
+    <option>Beschadigd</option><option>Klant weigert</option>
+    <option>Te korte THT</option><option>Retour volgens afspraak</option>
+    <option>Kwaliteitsprobleem</option><option>Overig</option>
+  </select>
+  <label for="algemeneOpmerking">Opmerking</label>
+  <textarea id="algemeneOpmerking" placeholder="Extra info..."></textarea>
+</section>
+
+<section class="card">
+  <h2><span class="step">2</span> Artikel toevoegen</h2>
+  <label for="articleSearch">Artikel zoeken</label>
+  <div class="search-box">
+    <input type="text" id="articleSearch" placeholder="Zoek artikel..." autocomplete="off">
+    <div id="articleResults" class="results"></div>
+  </div>
+  <div id="selectedArticle" class="selected"></div>
+  <label for="aantal">Aantal stuks</label>
+  <input type="number" id="aantal" min="1" step="1" inputmode="numeric" placeholder="Aantal">
+  <label for="productOpmerking">Opmerking artikel</label>
+  <textarea id="productOpmerking" placeholder="Opmerking..."></textarea>
+  <button type="button" class="btn btn-add" id="btnAddProduct">＋ Artikel toevoegen</button>
+  <div id="productList"></div>
+</section>
+
+<section class="card">
+  <h2><span class="step">3</span> Retour opslaan</h2>
+  <div class="actions">
+    <button type="button" class="btn btn-save" id="btnSave">💾 Retour opslaan</button>
+    <button type="button" class="btn btn-new" id="btnNew">＋ Nieuwe retour</button>
+    <button type="button" class="btn btn-export" id="btnExport">📊 Excel (CSV)</button>
+  </div>
+</section>
+
+<section class="card">
+  <h2>🗂️ Geregistreerde retouren <span id="retourCount" style="margin-left:auto;font-size:13px;color:var(--muted)"></span></h2>
+  <div id="retourList"></div>
+</section>
+
+</main>
+
+<div id="toast" class="toast"></div>
+
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+<script>
+var FIREBASE_CONFIG = {
+  apiKey: "AIzaSyBP5Dmv-kWue5DxcL8N0eLScICmtVNODaI",
+  authDomain: "retourorders.firebaseapp.com",
+  databaseURL: "https://retourorders-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "retourorders",
+  storageBucket: "retourorders.firebasestorage.app",
+  messagingSenderId: "181051721386",
+  appId: "1:181051721386:web:5e47032bbc70c3dfb6f2d3"
+};
+
+var DEVICE_ID = "device_" + Math.random().toString(36).substr(2, 9);
+var DEVICE_NAME = /Mobi|Android/i.test(navigator.userAgent) ? "📱 Mobil" : "💻 PC";
+var db = null;
+var firebaseReady = false;
+var retoursData = [];
+
+function initFirebase() {
+  try {
+    firebase.initializeApp(FIREBASE_CONFIG);
+    db = firebase.database();
+    
+    var myConnRef = db.ref("presence/" + DEVICE_ID);
+    var connectedRef = db.ref(".info/connected");
+    
+    connectedRef.on("value", function(snap) {
+      if (snap.val() === true) {
+        myConnRef.set({name: DEVICE_NAME, id: DEVICE_ID, online: true, lastSeen: Date.now()});
+        myConnRef.onDisconnect().update({online: false, lastSeen: firebase.database.ServerValue.TIMESTAMP});
+        setStatus("synced", "☁️ Cloud hazır");
+        firebaseReady = true;
+      }
+    });
+    
+    db.ref("presence").on("value", function(snap) {
+      var count = 0;
+      snap.forEach(function(child) { if (child.val() && child.val().online) count++; });
+      document.getElementById("statUsers").textContent = count;
+    });
+    
+    db.ref("retours").on("value", function(snap) {
+      var data = snap.val();
+      retoursData = [];
+      if (data) {
+        for (var key in data) retoursData.push(data[key]);
+        retoursData.sort(function(a, b) { return (b.id || 0) - (a.id || 0); });
+      }
+      renderRetours();
+      if (firebaseReady) setStatus("synced", "☁️ " + retoursData.length + " kayıt");
+    });
+  } catch (e) {
+    setStatus("error", "Hata: " + e.message);
+  }
+}
+
+function setStatus(s, t) {
+  document.getElementById("syncIndicator").className = "sync-indicator " + s;
+  document.getElementById("syncText").textContent = t;
+  var dot = document.getElementById("cloudDot");
+  if (dot) dot.className = "dot " + (s === "synced" ? "online" : s === "error" ? "offline" : "");
+  var txt = document.getElementById("cloudText");
+  if (txt) txt.textContent = t;
+}
+
+var CUSTOMER_DATA = "011529\tOriental de Thij\n10624\tFangoo\n11946\tSafari Trading bv\nA10100\tAmbassade de Bosnie et Herzegovine BE\nA10105\tAdriatika delicatessen\nA10108\tAnkara Market Emmen\nA10118\tAndalucia supermarkt\nA10122\tAU BON PAIN Sarl\nA10124\tArena Supermarket b.v.Alkmaar\nA10148\tA.S.Watson\nA10172\tAl Baraket\nA10197\tAlbert Heijn Malden\nA10284\tAlbert Heijn Werkendam\nA10301\tAnatolia Supermarkt Tiel\nA11375\tALFA SUPERMARKT Den Haag\nAKSA\tAksa supermarkt Aachen\nB10210\tBirlik B.V.\nB10215\tBrajlovic GmbH\nB10253\tBahar food bv\nB10267\tBoni Markten BV\nB10301\tKoncern BAMBI A.D. Pozarevac\nB10540\tBajram Fleischerei\nB10556\tBizim Market\nBELGIE\tEDEX Food EU BV\nC10306\tCompany Lukic\nC10343\tMedewerkers Edex food\nD10397\tDonya Supermarkt\nD10411\tDunya international\nD105545\tDunya Supermarket Groningen\nE10495\tB.V. EVDE\nE10563\tEdex food Consumptie\nEMIR FOOD\tEMIR Food\nF10602\tM.B. import export\nF10624\tFamilie Market Groningen\nG10454\tGulhan Market Stad\nH10800\tHandelsonderneming Kara\nH10820\tHoogvliet Distributiecentrum\nI10900\tIKC DIN\nI10911\tISTANBUL MARKET\nJ11003\tJumbo ( onze crediteurnummer 17241)\nJ11019\tJumbo Breda Heksenwaag\nK01030\tSanka Events\nK11102\tSFB Food\nKATUN\tKatun BV\nL11203\tLuana Markt Kiosk\nM11292\tMix Markt Antwerpen\nM11301\tNessk b.v.\nN11406\tNazar markt\nO11507\tOriental Holding Europe\nP11600\tPLUS Retail b.v.\nR11801\tTandartsenpraktijk Ribic\nS11160\tSaygin Market\nS11162\tSupermarkt Tanger\nS11167\tSafari Supermarkt\nT12001\tTanger Supermarkt\nTANGER\tTanger Distributiecentrum B.V\nU1203\tUnsal winkel\nV12200\tSahin Market Cuijk\nW12301\tWilly's Market\nWS00000003\tEDEX Food\nX11001\tXenos BV\nY11601\tOmsa srl.\nZ10232\tZAM ZAM XL";
+
+var ARTICLE_DATA = "1002\tFranck koffie JUBILARNA 400g\n1003\tDon cafe 500g - Moment\n1004\tGrand GOLD 500g\n1005\tMinas koffie 250g\n1006\tGrand koffie GOLD 200g\n1008\tMinas koffie 500g\n1100\tAjvar 350 g pittig Podravka\n1101\tAjvar 690 g pittig Podravka\n1102\tAjvar 350 g mild Podravka\n1105\tAjvar 690 g mild Podravka\n1106\tCornichons 720ml Natura\n1224\tVegeta 250g\n1226\tVegeta 500g\n1228\tVegeta 1 kg\n1274\tKATUN Mladi Kajmak 200 gr\n1500\tArgeta JUNIOR 95g\n1502\tArgeta KIP 95g\n1700\tBajadera bonbons 200 g Kras\n1907\tMEZZA Cevapi Banjaluka 730g\n1908\tMEZZA Cevapi Sarajevo 750g\n20001\tNL Golden Eagle 0,25L ENERGYDRINK\n2001\tGOLDEN EAGLE 6 -PACK\n2003\tOAZA natural water 1,5L\n2021\tCOCA COLA 2L\n2034\tJANA bronwater 1,5L";
+
+function parseData(data){
+  var lines = data.split("\n");
+  var result = [];
+  for(var i=0;i<lines.length;i++){
+    var line = lines[i];
+    if(!line.trim()) continue;
+    var idx = line.indexOf("\t");
+    if(idx === -1) continue;
+    var code = line.substring(0, idx).trim();
+    var name = line.substring(idx+1).trim();
+    if(code) result.push({code:code, name:name});
+  }
+  return result;
+}
+
+var customers = parseData(CUSTOMER_DATA);
+var articles  = parseData(ARTICLE_DATA);
+var selectedCustomer = null;
+var selectedArticle  = null;
+var retourProducts   = [];
+
+var elDatum = document.getElementById("datum");
+var elChauffeur = document.getElementById("chauffeur");
+var elCustomerSearch = document.getElementById("customerSearch");
+var elCustomerResults = document.getElementById("customerResults");
+var elSelectedCustomer = document.getElementById("selectedCustomer");
+var elRetourreden = document.getElementById("retourreden");
+var elAlgemeneOpmerking = document.getElementById("algemeneOpmerking");
+var elArticleSearch = document.getElementById("articleSearch");
+var elArticleResults = document.getElementById("articleResults");
+var elSelectedArticle = document.getElementById("selectedArticle");
+var elAantal = document.getElementById("aantal");
+var elProductOpmerking = document.getElementById("productOpmerking");
+var elProductList = document.getElementById("productList");
+var elRetourList = document.getElementById("retourList");
+var elRetourCount = document.getElementById("retourCount");
+var elStatRetours = document.getElementById("statRetours");
+var elStatStuks = document.getElementById("statStuks");
+var elToast = document.getElementById("toast");
+
+elDatum.value = new Date().toISOString().slice(0,10);
+
+function normalize(text){
+  if(!text) return "";
+  var s = String(text).toLowerCase();
+  s = s.replace(/ğ/g,"g").replace(/ü/g,"u").replace(/ş/g,"s").replace(/ı/g,"i")
+       .replace(/ö/g,"o").replace(/ç/g,"c").replace(/â/g,"a").replace(/î/g,"i")
+       .replace(/û/g,"u").replace(/ë/g,"e").replace(/é/g,"e").replace(/è/g,"e")
+       .replace(/ê/g,"e").replace(/á/g,"a").replace(/à/g,"a").replace(/ó/g,"o")
+       .replace(/ò/g,"o").replace(/ú/g,"u").replace(/ù/g,"u").replace(/ñ/g,"n")
+       .replace(/ß/g,"ss").replace(/&/g,"en");
+  try { s = s.normalize("NFD").replace(/[\u0300-\u036f]/g,""); } catch(e){}
+  return s;
+}
+
+function escapeHtml(text){
+  if(!text) return "";
+  return String(text).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+         .replace(/"/g,"&quot;").replace(/'/g,"&#039;");
+}
+
+var toastTimer = null;
+function toast(msg, type){
+  elToast.textContent = msg;
+  elToast.className = "toast show " + (type||"");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ elToast.className = "toast"; }, 3500);
+}
+
+function setupSearch(inputEl, resultsEl, selectedEl, source, onSelect, onClear){
+  var activeIndex = -1;
+  function close(){ resultsEl.classList.remove("open"); resultsEl.innerHTML=""; activeIndex=-1; }
+
+  inputEl.addEventListener("input", function(){
+    var query = normalize(this.value).trim();
+    onClear();
+    selectedEl.classList.remove("show");
+    selectedEl.innerHTML = "";
+    resultsEl.innerHTML = "";
+    activeIndex = -1;
+    if(!query){ close(); return; }
+
+    var found = [];
+    for(var i=0; i<source.length && found.length<40; i++){
+      var item = source[i];
+      if(normalize(item.code).indexOf(query) !== -1 || normalize(item.name).indexOf(query) !== -1){
+        found.push(item);
+      }
+    }
+
+    if(!found.length){
+      resultsEl.innerHTML = '<div class="result-none">Bulunamadı.</div>';
+      resultsEl.classList.add("open");
+      return;
+    }
+
+    var html = "";
+    for(var j=0; j<found.length; j++){
+      html += '<div class="result-item" data-idx="'+j+'"><div class="result-code">'+escapeHtml(found[j].code)+'</div><div class="result-name">'+escapeHtml(found[j].name)+'</div></div>';
+    }
+    resultsEl.innerHTML = html;
+    resultsEl.classList.add("open");
+
+    var items = resultsEl.querySelectorAll(".result-item");
+    for(var k=0; k<items.length; k++){
+      (function(idx){
+        items[idx].addEventListener("click", function(){ pick(found[idx]); });
+      })(k);
+    }
+  });
+
+  inputEl.addEventListener("keydown", function(e){
+    var items = resultsEl.querySelectorAll(".result-item");
+    if(!items.length) return;
+    if(e.key === "ArrowDown"){ e.preventDefault(); activeIndex = Math.min(activeIndex+1, items.length-1); }
+    else if(e.key === "ArrowUp"){ e.preventDefault(); activeIndex = Math.max(activeIndex-1, 0); }
+    else if(e.key === "Enter"){ e.preventDefault(); if(items[activeIndex]) items[activeIndex].click(); return; }
+    else if(e.key === "Escape"){ close(); return; }
+    else return;
+    for(var i=0;i<items.length;i++){
+      if(i===activeIndex) items[i].classList.add("active");
+      else items[i].classList.remove("active");
+    }
+  });
+
+  function pick(item){
+    onSelect(item);
+    inputEl.value = item.code + " - " + item.name;
+    close();
+    selectedEl.classList.add("show");
+    selectedEl.innerHTML = '<span>✓ <strong>'+escapeHtml(item.code)+'</strong> - '+escapeHtml(item.name)+'</span><button type="button" class="clear">✕</button>';
+    selectedEl.querySelector(".clear").addEventListener("click", function(){
+      onClear();
+      inputEl.value = "";
+      selectedEl.classList.remove("show");
+      selectedEl.innerHTML = "";
+      inputEl.focus();
+    });
+  }
+
+  return { close: close };
+}
+
+setupSearch(elCustomerSearch, elCustomerResults, elSelectedCustomer, customers,
+  function(item){ selectedCustomer = item; },
+  function(){ selectedCustomer = null; }
+);
+setupSearch(elArticleSearch, elArticleResults, elSelectedArticle, articles,
+  function(item){ selectedArticle = item; },
+  function(){ selectedArticle = null; }
+);
+
+document.addEventListener("click", function(e){
+  if(!e.target.closest(".search-box")){
+    elCustomerResults.classList.remove("open");
+    elArticleResults.classList.remove("open");
+  }
+});
+
+function addProduct(){
+  if(!selectedArticle){ toast("⚠️ Önce artikel seçin", "err"); return; }
+  var aantal = elAantal.value;
+  if(!aantal || Number(aantal) <= 0){ toast("⚠️ Aantal girin", "err"); return; }
+
+  retourProducts.push({
+    code: selectedArticle.code,
+    name: selectedArticle.name,
+    aantal: Number(aantal),
+    opmerking: elProductOpmerking.value.trim()
+  });
+
+  renderProducts();
+  selectedArticle = null;
+  elArticleSearch.value = "";
+  elSelectedArticle.classList.remove("show");
+  elSelectedArticle.innerHTML = "";
+  elAantal.value = "";
+  elProductOpmerking.value = "";
+  toast("✓ Artikel eklendi", "ok");
+}
+
+function renderProducts(){
+  if(!retourProducts.length){
+    elProductList.innerHTML = '<div class="empty"><span class="big">📦</span>Henüz artikel yok</div>';
+    return;
+  }
+  var html = "";
+  for(var i=0; i<retourProducts.length; i++){
+    var p = retourProducts[i];
+    html += '<div class="product-card"><h3>'+escapeHtml(p.code)+' - '+escapeHtml(p.name)+'</h3><p><strong>Aantal:</strong> '+p.aantal+' stuks</p>'+(p.opmerking?'<p><strong>Opmerking:</strong> '+escapeHtml(p.opmerking)+'</p>':'')+'<button class="btn-delete" data-idx="'+i+'">🗑 Sil</button></div>';
+  }
+  elProductList.innerHTML = html;
+  var buttons = elProductList.querySelectorAll(".btn-delete");
+  for(var j=0; j<buttons.length; j++){
+    (function(idx){ buttons[idx].addEventListener("click", function(){ retourProducts.splice(idx,1); renderProducts(); }); })(j);
+  }
+}
+
+function saveRetour(){
+  if(!firebaseReady){
+    toast("⚠️ Cloud hazır değil!", "err");
+    return;
+  }
+
+  var datum = elDatum.value;
+  var chauffeur = elChauffeur.value.trim();
+  var reden = elRetourreden.value;
+  var opmerking = elAlgemeneOpmerking.value.trim();
+
+  if(!datum){ toast("⚠️ Datum girin", "err"); return; }
+  if(!chauffeur){ toast("⚠️ Chauffeur girin", "err"); return; }
+  if(!selectedCustomer){ toast("⚠️ Klant seçin", "err"); return; }
+  if(!reden){ toast("⚠️ Retourreden seçin", "err"); return; }
+  if(!retourProducts.length){ toast("⚠️ Artikel ekleyin", "err"); return; }
+
+  setStatus("syncing", "Kaydediliyor...");
+
+  var retourId = Date.now();
+  var retour = {
+    id: retourId,
+    datum: datum,
+    chauffeur: chauffeur,
+    klantcode: selectedCustomer.code,
+    klantnaam: selectedCustomer.name,
+    reden: reden,
+    algemeneOpmerking: opmerking,
+    artikelen: JSON.parse(JSON.stringify(retourProducts)),
+    aangemaakt: new Date().toLocaleString("nl-NL"),
+    deviceId: DEVICE_ID,
+    deviceName: DEVICE_NAME
+  };
+
+  db.ref("retours/" + retourId).set(retour)
+    .then(function(){
+      setStatus("synced", "☁️ Kaydedildi!");
+      resetForm(false);
+      toast("✓ Cloud'a kaydedildi!", "ok");
+    })
+    .catch(function(error){
+      setStatus("error", "Hata!");
+      toast("❌ Hata: " + error.code, "err");
+    });
+}
+
+function deleteRetour(id){
+  if(!confirm("Silmek istediğinize emin misiniz?")) return;
+  db.ref("retours/" + id).remove()
+    .then(function(){ toast("✓ Silindi", "ok"); })
+    .catch(function(error){ toast("❌ Hata: " + error.message, "err"); });
+}
+
+function resetForm(confirmUser){
+  if(confirmUser && (retourProducts.length || elChauffeur.value || selectedCustomer)){
+    if(!confirm("Formu temizle?")) return;
+  }
+  elDatum.value = new Date().toISOString().slice(0,10);
+  elChauffeur.value = "";
+  elCustomerSearch.value = "";
+  selectedCustomer = null;
+  elSelectedCustomer.classList.remove("show");
+  elSelectedCustomer.innerHTML = "";
+  elRetourreden.value = "";
+  elAlgemeneOpmerking.value = "";
+  selectedArticle = null;
+  elArticleSearch.value = "";
+  elSelectedArticle.classList.remove("show");
+  elSelectedArticle.innerHTML = "";
+  elAantal.value = "";
+  elProductOpmerking.value = "";
+  retourProducts = [];
+  renderProducts();
+}
+
+function renderRetours(){
+  var retours = retoursData;
+  var totaalStuks = 0;
+  for(var i=0; i<retours.length; i++){
+    if(retours[i].artikelen){
+      for(var j=0; j<retours[i].artikelen.length; j++){
+        totaalStuks += Number(retours[i].artikelen[j].aantal)||0;
+      }
+    }
+  }
+  elStatRetours.textContent = retours.length;
+  elStatStuks.textContent = totaalStuks;
+  elRetourCount.textContent = retours.length > 0 ? "(" + retours.length + " cloud)" : "";
+
+  if(!retours.length){
+    elRetourList.innerHTML = '<div class="empty"><span class="big">🗂️</span>Henüz retour yok</div>';
+    return;
+  }
+  var html = "";
+  for(var r=0; r<retours.length; r++){
+    var retour = retours[r];
+    var artikelen = "";
+    if(retour.artikelen){
+      for(var a=0; a<retour.artikelen.length; a++){
+        var art = retour.artikelen[a];
+        artikelen += '<li><strong>'+escapeHtml(art.code)+'</strong> - '+escapeHtml(art.name)+' - '+art.aantal+' stuks</li>';
+      }
+    }
+    var dev = retour.deviceName ? ' <span style="font-size:11px;color:var(--muted)">('+escapeHtml(retour.deviceName)+')</span>' : '';
+    html += '<div class="retour-card"><h3>Retour - '+escapeHtml(retour.datum)+dev+'</h3><span class="badge">'+escapeHtml(retour.reden)+'</span><p style="margin-top:10px"><strong>Chauffeur:</strong> '+escapeHtml(retour.chauffeur)+'</p><p><strong>Klant:</strong> '+escapeHtml(retour.klantcode)+' - '+escapeHtml(retour.klantnaam)+'</p><ul>'+artikelen+'</ul>'+(retour.algemeneOpmerking?'<p><strong>Opmerking:</strong> '+escapeHtml(retour.algemeneOpmerking)+'</p>':'')+'<p class="meta">'+escapeHtml(retour.aangemaakt)+'</p><button class="btn-delete btn-del-retour" data-id="'+retour.id+'">🗑 Sil</button></div>';
+  }
+  elRetourList.innerHTML = html;
+  var delButtons = elRetourList.querySelectorAll(".btn-del-retour");
+  for(var k=0; k<delButtons.length; k++){
+    (function(btn){
+      btn.addEventListener("click", function(){ deleteRetour(Number(btn.getAttribute("data-id"))); });
+    })(delButtons[k]);
+  }
+}
+
+function exportCSV(){
+  if(!retoursData.length){ toast("Veri yok", "err"); return; }
+  var csv = "Datum;Chauffeur;Klant;Reden;Artikel;Aantal\n";
+  for(var i=0; i<retoursData.length; i++){
+    var r = retoursData[i];
+    if(r.artikelen){
+      for(var j=0; j<r.artikelen.length; j++){
+        var a = r.artikelen[j];
+        csv += [r.datum, r.chauffeur, r.klantnaam, r.reden, a.code+" "+a.name, a.aantal].join(";") + "\n";
+      }
+    }
+  }
+  var blob = new Blob(["\ufeff"+csv], {type:"text/csv;charset=utf-8;"});
+  var url = URL.createObjectURL(blob);
+  var link = document.createElement("a");
+  link.href = url;
+  link.download = "retouren_" + new Date().toISOString().slice(0,10) + ".csv";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+  toast("✓ CSV indirildi", "ok");
+}
+
+document.getElementById("btnAddProduct").addEventListener("click", addProduct);
+document.getElementById("btnSave").addEventListener("click", saveRetour);
+document.getElementById("btnNew").addEventListener("click", function(){ resetForm(true); });
+document.getElementById("btnExport").addEventListener("click", exportCSV);
+
+renderProducts();
+initFirebase();
+</script>
+</body>
+</html>
