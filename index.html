@@ -1,0 +1,1918 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Retour Registratie / Registracija Povratnica</title>
+<style>
+:root{--brand:#1d4ed8;--brand-dark:#17365d;--brand-grad:linear-gradient(135deg,#17365d 0%,#1d4ed8 60%,#3b82f6 100%);--bg:#eef2f7;--card:#fff;--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--green:#16a34a;--green-soft:#dcfce7;--red:#dc2626;--red-soft:#fee2e2;--radius:14px;--shadow:0 1px 3px rgba(15,23,42,.08),0 8px 24px rgba(15,23,42,.06)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
+.header{background:var(--brand-grad);color:#fff;padding:22px 16px 64px;text-align:center}
+.header h1{font-size:22px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
+.header .bs{font-size:16px;opacity:.85;font-weight:600;font-style:italic}
+.header p{margin-top:5px;font-size:14px;opacity:.85}
+.cloud-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.2);padding:4px 12px;border-radius:999px;font-size:12px;font-weight:700;margin-top:8px}
+.cloud-badge .dot{width:8px;height:8px;border-radius:50%;background:#fbbf24;animation:blink 1.5s infinite}
+.cloud-badge .dot.online{background:#4ade80;animation:none}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;max-width:900px;margin:-38px auto 0;padding:0 14px;position:relative;z-index:2}
+.stat{flex:1;min-width:140px;max-width:280px;background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 16px;display:flex;align-items:center;gap:12px}
+.stat .ico{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;background:#dbeafe}
+.stat:nth-child(2) .ico{background:var(--green-soft)}
+.stat:nth-child(3) .ico{background:#fef3c7}
+.stat .num{font-size:22px;font-weight:800;line-height:1.1}
+.stat .lbl{font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.4px;line-height:1.3}
+.stat .lbl .bs{font-style:italic;font-weight:500;text-transform:none;display:block;font-size:10px}
+.container{max-width:900px;margin:18px auto 40px;padding:0 14px}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;margin-bottom:16px}
+.card h2{display:flex;align-items:center;gap:10px;font-size:16px;font-weight:800;color:var(--brand-dark);padding-bottom:12px;margin-bottom:16px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.card h2 .bs{font-size:13px;color:var(--muted);font-weight:600;font-style:italic}
+.step{width:26px;height:26px;border-radius:8px;background:var(--brand);color:#fff;font-size:14px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none}
+label{display:block;font-size:13px;font-weight:700;color:#334155;margin:14px 0 6px}
+label .bs{font-weight:500;color:var(--muted);font-style:italic;font-size:12px}
+label:first-of-type{margin-top:0}
+input,select,textarea{width:100%;min-height:48px;padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;font-size:16px;font-family:inherit;color:var(--ink);background:#fff}
+textarea{min-height:88px;resize:vertical;line-height:1.45}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px rgba(29,78,216,.15)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.search-box{position:relative}
+.results{position:absolute;z-index:50;left:0;right:0;top:calc(100% + 4px);background:#fff;border:1.5px solid var(--line);border-radius:12px;max-height:280px;overflow-y:auto;box-shadow:0 12px 32px rgba(15,23,42,.16);display:none}
+.results.open{display:block}
+.result-item{padding:13px 14px;cursor:pointer;border-bottom:1px solid #f1f5f9}
+.result-item:hover{background:#eff6ff}
+.result-code{font-weight:800;color:var(--brand);font-size:14px}
+.result-name{font-size:13px;color:#334155;margin-top:2px}
+.result-none{padding:14px;color:var(--muted);font-size:14px;text-align:center}
+.selected{display:none;margin-top:8px;padding:12px 14px;border-radius:10px;background:var(--green-soft);border:1.5px solid #86efac;color:#14532d;font-size:14px;align-items:center;justify-content:space-between;gap:10px}
+.selected.show{display:flex}
+.selected .clear{border:none;background:none;cursor:pointer;font-size:18px;color:#14532d;opacity:.6;padding:6px}
+.btn{width:100%;min-height:50px;border:none;border-radius:12px;padding:14px 18px;font-size:15px;font-weight:800;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+.btn:active{transform:scale(.98)}
+.btn .bs{font-weight:600;font-style:italic;opacity:.85;font-size:13px}
+.btn-add{background:var(--green);color:#fff;margin-top:16px}
+.btn-save{background:var(--brand-grad);color:#fff;box-shadow:0 6px 16px rgba(29,78,216,.35)}
+.btn-new{background:#f1f5f9;color:#334155;border:1.5px solid var(--line)}
+.btn-export{background:#fff;color:var(--green);border:1.5px solid #86efac}
+.btn-delete{background:var(--red-soft);color:var(--red);border:none;border-radius:9px;padding:9px 14px;font-size:13px;font-weight:700;cursor:pointer;min-height:40px;font-family:inherit;margin-top:10px}
+.product-card{border:1.5px solid var(--line);border-left:5px solid var(--brand);border-radius:12px;padding:14px;margin-top:12px;background:#fbfdff}
+.product-card h3{font-size:15px;margin-bottom:6px}
+.product-card p{font-size:13.5px;color:#334155;margin:3px 0}
+.empty{text-align:center;color:var(--muted);padding:26px 16px;font-size:14.5px;border:1.5px dashed var(--line);border-radius:12px;margin-top:12px}
+.empty .big{font-size:30px;display:block;margin-bottom:6px}
+.empty .bs{font-style:italic;display:block;font-size:13px;margin-top:4px}
+.retour-card{border:1.5px solid var(--line);border-left:5px solid var(--green);border-radius:12px;padding:16px;margin-bottom:12px;background:#f0fdf4}
+.retour-card h3{font-size:16px;color:var(--brand-dark)}
+.badge{display:inline-block;background:#dbeafe;color:#1e40af;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;margin-top:4px}
+.retour-card p{font-size:14px;color:#334155;margin:5px 0}
+.retour-card ul{margin:6px 0 4px 18px;font-size:14px}
+.retour-card li{margin:3px 0}
+.meta{font-size:12px;color:var(--muted);margin-top:8px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,80px);background:#0f172a;color:#fff;padding:14px 22px;border-radius:12px;font-size:14.5px;font-weight:700;opacity:0;transition:transform .3s,opacity .3s;z-index:100;pointer-events:none;max-width:calc(100vw - 32px);text-align:center}
+.toast.show{transform:translate(-50%,0);opacity:1}
+.toast.ok{background:var(--green)}
+.toast.err{background:var(--red)}
+.actions{display:grid;gap:10px}
+.sync-indicator{position:fixed;top:12px;right:12px;z-index:200;display:flex;align-items:center;gap:6px;background:#fff;padding:6px 12px;border-radius:999px;font-size:12px;font-weight:700;box-shadow:var(--shadow)}
+.sync-indicator .dot{width:8px;height:8px;border-radius:50%}
+.sync-indicator.syncing .dot{background:#fbbf24;animation:blink 1s infinite}
+.sync-indicator.synced .dot{background:#4ade80}
+.sync-indicator.error .dot{background:#f87171}
+@media (min-width:640px){.actions{grid-template-columns:2fr 1fr 1fr}}
+@media (max-width:600px){.header{padding:18px 14px 58px}.header h1{font-size:18px}.header .bs{font-size:14px}.row{grid-template-columns:1fr}.card{padding:16px}.stat{min-width:calc(50% - 5px);padding:12px}.stat .num{font-size:19px}}
+</style>
+</head>
+<body>
+
+<div id="syncIndicator" class="sync-indicator syncing">
+  <span class="dot"></span>
+  <span id="syncText">Starten...</span>
+</div>
+
+<header class="header">
+  <h1>🚚 Retour Registratie <span class="bs">/ Registracija Povratnica</span></h1>
+  <p>Snel en eenvoudig retouren registreren / Brzo i jednostavno evidentiranje povratnica</p>
+  <div class="cloud-badge">
+    <span class="dot" id="cloudDot"></span>
+    <span id="cloudText">☁️ Cloud</span>
+  </div>
+</header>
+
+<div class="stats">
+  <div class="stat"><div class="ico">📦</div><div><div class="num" id="statRetours">0</div><div class="lbl">Retouren<span class="bs">Povratnice</span></div></div></div>
+  <div class="stat"><div class="ico">🧾</div><div><div class="num" id="statStuks">0</div><div class="lbl">Stuks totaal<span class="bs">Ukupno komada</span></div></div></div>
+  <div class="stat"><div class="ico">👥</div><div><div class="num" id="statUsers">-</div><div class="lbl">Actief<span class="bs">Aktivno</span></div></div></div>
+</div>
+
+<main class="container">
+
+<section class="card">
+  <h2><span class="step">1</span> Algemene gegevens <span class="bs">/ Opći podaci</span></h2>
+  <div class="row">
+    <div><label for="datum">Datum <span class="bs">/ Datum</span></label><input type="date" id="datum"></div>
+    <div><label for="chauffeur">Chauffeur <span class="bs">/ Vozač</span></label><input type="text" id="chauffeur" placeholder="Naam chauffeur / Ime vozača"></div>
+  </div>
+  <label for="customerSearch">Retourklant <span class="bs">/ Kupac povratnice</span></label>
+  <div class="search-box">
+    <input type="text" id="customerSearch" placeholder="Zoek klant... / Pretraži kupca..." autocomplete="off">
+    <div id="customerResults" class="results"></div>
+  </div>
+  <div id="selectedCustomer" class="selected"></div>
+  <label for="retourreden">Retourreden <span class="bs">/ Razlog povratnice</span></label>
+  <select id="retourreden">
+    <option value="">-- Selecteer / Odaberi --</option>
+    <option>Verkeerd geleverd / Pogrešno isporučeno</option>
+    <option>Verkeerd besteld / Pogrešno naručeno</option>
+    <option>Beschadigd / Oštećeno</option>
+    <option>Klant weigert / Kupac odbija</option>
+    <option>Te korte THT / Prekratak rok trajanja</option>
+    <option>Retour volgens afspraak / Povratnica po dogovoru</option>
+    <option>Kwaliteitsprobleem / Problem s kvalitetom</option>
+    <option>Overig / Ostalo</option>
+  </select>
+  <label for="algemeneOpmerking">Algemene opmerking <span class="bs">/ Opći komentar</span></label>
+  <textarea id="algemeneOpmerking" placeholder="Extra informatie... / Dodatne informacije..."></textarea>
+</section>
+
+<section class="card">
+  <h2><span class="step">2</span> Artikel toevoegen <span class="bs">/ Dodaj artikal</span></h2>
+  <label for="articleSearch">Artikel zoeken <span class="bs">/ Pretraži artikal</span></label>
+  <div class="search-box">
+    <input type="text" id="articleSearch" placeholder="Zoek artikel... / Pretraži artikal..." autocomplete="off">
+    <div id="articleResults" class="results"></div>
+  </div>
+  <div id="selectedArticle" class="selected"></div>
+  <label for="aantal">Aantal stuks <span class="bs">/ Broj komada</span></label>
+  <input type="number" id="aantal" min="1" step="1" inputmode="numeric" placeholder="Aantal / Broj">
+  <label for="productOpmerking">Opmerking artikel <span class="bs">/ Komentar artikla</span></label>
+  <textarea id="productOpmerking" placeholder="Opmerking... / Komentar..."></textarea>
+  <button type="button" class="btn btn-add" id="btnAddProduct">＋ Artikel toevoegen <span class="bs">/ Dodaj artikal</span></button>
+  <div id="productList"></div>
+</section>
+
+<section class="card">
+  <h2><span class="step">3</span> Retour opslaan <span class="bs">/ Spremi povratnicu</span></h2>
+  <div class="actions">
+    <button type="button" class="btn btn-save" id="btnSave">💾 Retour opslaan <span class="bs">/ Spremi</span></button>
+    <button type="button" class="btn btn-new" id="btnNew">＋ Nieuwe retour <span class="bs">/ Nova</span></button>
+    <button type="button" class="btn btn-export" id="btnExport">📊 Excel (CSV)</button>
+  </div>
+</section>
+
+<section class="card">
+  <h2>🗂️ Geregistreerde retouren <span class="bs">/ Registrirane povratnice</span> <span id="retourCount" style="margin-left:auto;font-size:13px;color:var(--muted)"></span></h2>
+  <div id="retourList"></div>
+</section>
+
+</main>
+
+<div id="toast" class="toast"></div>
+
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+<script>
+var FIREBASE_CONFIG = {
+  apiKey: "AIzaSyBP5Dmv-kWue5DxcL8N0eLScICmtVNODaI",
+  authDomain: "retourorders.firebaseapp.com",
+  databaseURL: "https://retourorders-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "retourorders",
+  storageBucket: "retourorders.firebasestorage.app",
+  messagingSenderId: "181051721386",
+  appId: "1:181051721386:web:5e47032bbc70c3dfb6f2d3"
+};
+
+var DEVICE_ID = "device_" + Math.random().toString(36).substr(2, 9);
+var DEVICE_NAME = /Mobi|Android/i.test(navigator.userAgent) ? "📱 Mobil" : "💻 PC";
+var db = null;
+var firebaseReady = false;
+var retoursData = [];
+
+function initFirebase() {
+  try {
+    firebase.initializeApp(FIREBASE_CONFIG);
+    db = firebase.database();
+    var myConnRef = db.ref("presence/" + DEVICE_ID);
+    var connectedRef = db.ref(".info/connected");
+    connectedRef.on("value", function(snap) {
+      if (snap.val() === true) {
+        myConnRef.set({name: DEVICE_NAME, id: DEVICE_ID, online: true, lastSeen: Date.now()});
+        myConnRef.onDisconnect().update({online: false, lastSeen: firebase.database.ServerValue.TIMESTAMP});
+        setStatus("synced", "☁️ Cloud aktivan");
+        firebaseReady = true;
+      }
+    });
+    db.ref("presence").on("value", function(snap) {
+      var count = 0;
+      snap.forEach(function(child) { if (child.val() && child.val().online) count++; });
+      document.getElementById("statUsers").textContent = count;
+    });
+    db.ref("retours").on("value", function(snap) {
+      var data = snap.val();
+      retoursData = [];
+      if (data) {
+        for (var key in data) retoursData.push(data[key]);
+        retoursData.sort(function(a, b) { return (b.id || 0) - (a.id || 0); });
+      }
+      renderRetours();
+      if (firebaseReady) setStatus("synced", "☁️ " + retoursData.length + " zapisa");
+    });
+  } catch (e) {
+    setStatus("error", "Greška: " + e.message);
+  }
+}
+
+function setStatus(s, t) {
+  document.getElementById("syncIndicator").className = "sync-indicator " + s;
+  document.getElementById("syncText").textContent = t;
+  var dot = document.getElementById("cloudDot");
+  if (dot) dot.className = "dot " + (s === "synced" ? "online" : s === "error" ? "offline" : "");
+  var txt = document.getElementById("cloudText");
+  if (txt) txt.textContent = t;
+}
+
+var CUSTOMER_DATA = `011529\tOriental de Thij
+10624\tFangoo
+11946\tSafari Trading bv
+A10100\tAmbassade de Bosnie et Herzegovine BE
+A10105\tAdriatika delicatessen
+A10108\tAnkara Market Emmen
+A10118\tAndalucia supermarkt
+A10122\tAU BON PAIN Sarl
+A10124\tArena Supermarket b.v.Alkmaar
+A10128\tA.A.D. Elektrotechniek b.v.
+A10129\tArena Frischmarkt Gronau
+A10148\tA.S.Watson
+A10152\tAmbassade van Bosnie en Herzegovina NL
+A10160\tAdelina Gross AB
+A10163\tMix Market Etten Leur
+A10168\tHerrn Turgut Ramazan
+A101701\tAYTAS SUPERMARKET B.V.
+A10172\tAl Baraket
+A10174\tAmbassade van Kroatië
+A10177\tAvantage Admiraalsplein Dordrecht
+A10178\tAlibaba Shopping Center Bressoux
+A10184\tAlba Food Trading B.V. Alphen a/d Rijn
+A10191\tCrazy supermarkt
+A10197\tAlbert Heijn Malden
+A10198\tShala Bvba
+A10199\tAhsen food bv Amersfoort
+A10200\tMEO Supermarkt b.v. / DeliMeat
+A10204\tAL TAT
+A10208\tV.O.F. ADL Markt Zandvoort
+A10278\tAramano bvba
+A10284\tAlbert Heijn Werkendam
+A10285\tAvantage Rivierenplein Dordrecht
+A10286\tAlbert Heijn inkoop DC
+A10287\tArax Market
+A10288\tAna Market
+A10291\tArmin's Grill
+A10292\tAlimentation Generale des Balkans Yutz
+A10295\tAvan Kosem Supermarket
+A10301\tAnatolia Supermarkt Tiel
+A10303\tAlarabi Bazar
+A10307\tA & S Bvba
+A10308\tAtlantic Trade d.o.o.
+A10315\tYusuf Aren B.V. Aalst
+A10317\tAytac Versshop
+A10322\tAzan Exotic Food Shop
+A10326\tADA Supermarkt GmbH & Co.KG
+A10329\tAL BAARAKA Antwerpen
+A10330\tAlte Laterne
+A10334\tAlimentation generale Balkan Shop Bezies
+A10336\tAsya Markt Boxmeer
+A10339\tAkar Market
+A10342\tAtlantic DROGA KOLINSKA d.o.o
+A10399\tAl Baraka Les pavillons
+A11375\tALFA SUPERMARKT Den Haag
+A11376\tA1 Supermarkt
+A11377\tA&H Cash & Carry
+A11378\tABAZA GmbH & Co. KG
+A11379\tAD Market
+A11380\tAldodi BV
+A11381\tASL EFE 1
+A11382\tAB Distribution ( Proxy Delhaize)
+A11383\tAdana Supermarkt
+A11389\tArabel Trading
+A11395\tArarat Bordeaux
+A11396\tAydin Zeynelabidin
+A11397\tAYLLA'S KITCHEN
+A11399\tAl Baraka Les pavillons
+A11400\tAlibaba Professionals Luik
+A11402\tADRIA DISTRIBUTION TEAM
+A11404\tAmer Foods
+A11406\tAksa Grosshandel GmbH
+A11407\tFamilie Markt Blankenberg
+A11408\tAleksandar-Makedonija
+A11409\tAu Bon PAIN 3
+A11410\tALNA Supermarket
+A11411\tAleksandra Wroblewska
+A11413\tAvantage Supermarkt Eindhoven
+A11414\tAlmalki Foods
+A11416\tAlnour International Supermarkt
+A11417\tAB Exploitation sarl-Proxy Delhaize Bett
+A11418\tAB Distribution-Proxy Delhaize Dudelange
+A11419\tA La Belle Viande s.a.r.l
+A11420\tAdana Versmarkt
+A11421\tAD DELHAIZE EKEREN ( SIMBA BV )
+A11422\tAfridi Express BV
+A11423\tAlde Retail BV-Carrefour market Luchtbal
+A11424\tAza Maide Emmen
+A11425\tAd Delhaize Borgerhout BV
+A11426\tAl Baraka Holland B.V.
+A11427\tAzim Market B.V.
+A11428\tPT ABC President Indonesia
+A11429\tAl Mahaba
+A11430\tAvantage Piazza Center Gorinchem
+A11431\tAZM B.V.
+A11432\tAlba Market
+A11433\tAmare Halal Foods
+A11434\tAlimentation en Gros Linkgel S.àr.l.
+A11435\tAnatolia Supermarkt B.V.
+AKSA\tAksa supermarkt Aachen
+B10210\tBirlik B.V.
+B10215\tBrajlovic GmbH
+B10217\tBaran b.v.
+B10219\tB.A.V.S. Supermarche
+B10220\tBizim Ufuk supermarkt&bakkerij
+B10224\tRestaurant Balcanico am Damm
+B102241\tBalcanico UG
+B10230\tButa Mixmarket
+B10232\tBihro
+B10238\tBalkan Alimentation
+B10249\tCevapcici Restaurants Gmbh & Co. KG
+B10253\tBahar food bv
+B10254\tBasis e markt
+B10267\tBoni Markten BV
+B10269\tBalkania Int. foods LTD
+B10273\tBio BN Lux
+B10274\tBolsebroek&Partners b.v.
+B10292\tBalkan Shop DH
+B10295\tBalkan food
+B10297\tBAHAR IMPEX
+B10301\tKoncern BAMBI A.D. Pozarevac
+B10302\tBalkanika
+B10303\tBahaar Markt vof
+B10313\tBij Koster
+B10317\tBVBA JUPITER
+B10320\tBio Trade Planet Sarls
+B10327\tAvantage Charleroistraat Breda
+B10329\tBalkan Supermarket Metz
+B10331\tBessy bvba
+B10332\tBoon DC KW Dordrecht / CIV Superunie BA
+B10335\tBimaf Supermarkt & Slagerij
+B10340\tBVBA Mispelter
+B10344\tBakery Stars B.V.
+B10347\tBalkan Tukku Oy
+B10348\tBabylon mini market
+B10350\tSARL BBM 57
+B10352\tBaraka SAS
+B10540\tBajram Fleischerei
+B10542\tBesir Srl
+B10546\tBlueprint Automation BV
+B10548\tBij Minka
+B10549\tBoran Food Center B.V.
+B10550\tBerry's Foodmarkt 1
+B10552\tBistro am Vitusbad
+B10553\tBecky B.V.
+B10554\tBMB Halal Market
+B10556\tBizim Market
+B10560\tBalkan grill food Rotterdam
+B10561\tBALKANS TASTE
+B10562\tBakkerij Koersel BV
+B10565\tB2C Transport B.V.
+B10566\tBV Mahir
+B10567\tBafra Market
+B10568\tBilzen Bakkerij & Market
+B10571\tBerry's Foodmarkt Vleuten 2
+B10572\tBrasserie du Borinage S.C.
+B10573\tBosona Food d.o.o. Sarajevo
+B10575\tBerry's Foodmarkt Vleuten 3
+B10576\tBoons Bosschenhoofd
+B10577\tBoon's Markt Charlois
+B10578\tBalkan Mini Supermarket
+B10579\tBoon's Dagmarkt Wernhout
+B10580\tBalkan Express Grillspecialiteiten
+B10581\tBiladi Supermarkt
+B10582\tBALKAN GRILL FOOD GJAKOVA
+B10583\tBuro SL BV
+B10584\tB&B Supermarkt B.V.
+B10585\tBoons Dagmarkt Utrecht
+B10586\tBoons Dagmarkt Achtmaal
+B10587\tVS Logistiek / Bosnische Mini Market
+BELGIE\tEDEX Food EU BV
+C10306\tCompany Lukic
+C10308\tParticuliere verkoop
+C10313\tCACTUS
+C10314\tCoop Groothandel DC Gieten
+C10315\tCHAN'S BV
+C10317\tCarte blanche restaurant
+C10322\tCan Market
+C10326\tCicek Bakkerij
+C10337\tCiwan Food Sprl
+C10341\tCAGDAS Bakkerij -Supermarket
+C10342\tCarrefour Express Hovenzavel bvba
+C10343\tMedewerkers Edex food
+C10344\tC.V.S. Belgium S.p.r.l.
+C10350\tCleijn Duin Supermarkt
+C10352\tColruyt, Etn. Franz SA
+C10362\tCagdas23 bv
+C10363\tCherry Market Wemmel
+C10364\tCatering mBollenstreek
+C10365\tCity Market Herentals
+C10368\tCarrefour des Continents
+C10370\tCarrefour Market Mol Kruisven
+C10371\tCarrefour Market Wommelgem
+C10372\tCarrefour Market BVBA Kiosk Hoboken
+C10373\tCarrefour express Deurne
+C10374\tCarrefour market 524
+C10375\tCarrefour Market Deurne-Dascottelei
+C10376\tConsys International
+C10378\tCarrefour Market Hoboken
+C10379\tCarrefour Express Willebroek
+C10380\tCafetaria/Snackbar Dee Dee's
+D10397\tDonya Supermarkt
+D10405\tVersmarkt De zon v.o.f.
+D10408\tDonmez market
+D10409\tDOST ALLIN B.V.
+D10411\tDunya international
+D10414\tDetailResult VELSEN KW FM/SM/SSM
+D10415\tDikmen
+D10424\tDalmacija Bei Ljuba
+D10428\tDe Vergt Bakkerij&lunchroom
+D10432\tDalmacija Knezevic
+D10440\tDe Wereld Toko
+D10442\tDost market Roermond
+D10445\tDunya Fares
+D10463\tDzemat Hajr Enschede
+D10467\tDilka (Nederland) b.v.
+D10469\tDEEN Supermarkten Beverwijk
+D10479\tDunya Markt
+D10527\tEDEKA JUSIC
+D10530\tDorlion Company bv
+D10531\tDay Night 2013 Sarl
+D10534\tDZURLIC
+D10537\tDati's
+D10538\tDamas
+D10540\tDreni SRL
+D105545\tDunya Supermarket Groningen
+D105546\tSupermarkt Demir
+D10566\tDuran Supermarket
+D10568\tDogus Supermarkt & Bakkerij
+D10571\tAD Delhaize Turnhout-Smart Ret.Business
+D10572\tDeckers Retail & Advise
+D10573\tDelimarkt Limited
+D10574\tDunya Market Emmen
+D10575\tDzemat Hajr Hoogeveen
+DRIES\tDries Markt
+E10495\tB.V. EVDE
+E10496\tEUROPJELENDAR
+E10501\tELMAS MARKET
+E10506\tEmigro B.V. International
+E10509\tAdriatic UK Ltd.
+E10514\tERBA GROUP BVBA
+E10518\tErba23bvba
+E10522\tEuro Fruits Sprl
+E10526\tE.M.N. Afbouw
+E10558\tEDEKA ABAZA
+E10559\tAldin ABAZA e.K.
+E10560\tEnkco B.V.
+E10561\tElma & Sead Supermarket
+E10563\tEdex food Consumptie
+E10566\tLe Chateau Dalep
+E10567\tEmtrading
+E10569\tQuality Food
+E10571\tEuromarket
+E10573\tElbir B.V.
+E10574\tErhan Food
+E10576\tEsmee Kitchen
+E10577\tExo King
+E10580\tEpicerie Chez Nous
+E10581\tEmir Food 2
+E10582\tEuro Boutique
+E10584\tEmmen Food b.v.
+E10585\tEmin Market
+E10586\tErba Group 2.0 BV
+E10587\tEmin Market Ettelbruck
+E70529\tErsas Benelux sprl
+E70537\tErdem Levensmiddelen B.V.
+E70541\tErpa Food Maasmechelen bvba
+E70545\tEnder Market Weert
+E70547\tE-Sales
+E70548\tEden's Market
+E70572\tEsma Supermarkt
+E70573\tEmirim B.V.
+E70574\tEminet Supermarkt
+EMIR FOOD\tEMIR Food
+F10602\tM.B. import export
+F10603\tFrisdrank en vleeshandel Tuana
+F10611\tSPRL FAMILY GROS MARKET
+F10623\tFEZAN Food bvba
+F10624\tFamilie Market Groningen
+F10631\tFEZAN Food bvba
+F10632\tFEEY srl
+F10635\tFriends bvba
+F10638\tFamilie Markt Alphen a/d Rijn
+F10642\tFlora BVBA
+F10644\tFERI chemical s.r.o.
+F10646\tFoode3 Lebensmittel gmbH
+F10647\tFatih Market
+G10454\tGulhan Market Stad
+G10708\tKafkas WEST
+G10717\tGlobus France
+G10723\tGlobe supermarkt
+G10726\tGiMA(uk) Ltd.
+G10734\tGuven supermarkt
+G10735\tBasis e Markt Groothandel
+G10741\tGroothandel Nazar
+G10742\tG-MArket SArl-S
+G10743\tGAREMARKET S.a.r.l.
+G10746\tGülcan Market Emmen
+G10751\tGulhan Supermarkt
+G10752\tGym set. go!
+G10756\tGayo Amsterdam
+G10758\tGoederenbank de Naronie
+G10759\tGrill Palast
+G10761\tGewoon COOP Compact
+H10800\tHandelsonderneming Kara
+H10807\tSemi Luna B.V.
+H10810\tHoornes Nur supermarkt
+H10812\tHizmet v.o.f.
+H10819\tHelal slagerij Izzet
+H10820\tHoogvliet Distributiecentrum
+H108201\tHoogvliet DC Bleiswijk /CIV Superunie BA
+H10827\tHelin Market Eyup
+H10828\tHalal Center Sprl
+H10829\tHANA PIPING
+H18031\tMerdem GmbH
+H18032\tHoudam Market
+H18033\tHall Markt
+H1823\tHayastan S.p.r.l.
+H1824\tHappy Supermarkt BV
+H1825\tHayat supermarkt
+H1826\tHolland Kracht bv
+H1828\tHarix SRL
+H1829\tHallal
+H1830\tHelin Market Eyup 2
+H1831\tHatay Market
+H1832\tHalcen
+H1836\tHoorness Nur Supermarkt en Bakkerij
+H1837\tHa Frere
+H1838\tDe Twee Gebroeders van Venlo
+H1839\tHamidovic
+H1840\tH.I.O. Özcan Tankstation Beheer B.V.
+I10900\tIKC DIN
+I10902\tIntermerkur Weinhandel GMBH
+I10905\tIzmir Market Eindhoven
+I10910\tIKRA - SU BV
+I10911\tISTANBUL MARKET
+I10913\tIstanbul Bazar Tilburg
+I10915\tIstanbul market Heemskerk
+I10916\tIZET S.A.R.L.
+I10928\tIKC Bosnjak Arnhem
+I10934\tIstanbul Bazaar Heerenveen
+I10935\tIG Impex B.V.
+I10937\tIMAA-SIS bvba
+I10939\tInplan d.o.o
+I10942\tISTANBUL SUPERMARKET Metz
+I10944\tIBRAHIM supermarche Longwy
+I10946\tIdeaal Supermarket
+I10949\tCedevitashop.com / Important goods
+I10950\tIstanbul Supermarkt BV Charlois
+I10952\tICC DIN Eindhoven
+I10953\tInterbake BV
+I10954\tIstanbul Markt Geleen
+I10956\tIstanbul Supermarkt Harderwijk
+I70958\tIdris Markt
+I70959\tIsmar Supermarkt
+I70960\tIndo Atlantic B.V.
+I70961\tIndo Baltic d.o.o.
+J11003\tJumbo ( onze crediteurnummer 17241)
+J11017\tJasmeet Shop
+J11018\tJubartolas SPRL/Carrefour -Shape 1749
+J11019\tJumbo Breda Heksenwaag
+J11021\tJamin Nederland BV
+J1120\tJumbo Breda Dr. Struyckenplein
+J11202\tJong Pallets bv
+J11203\tJumbo Wagnerplein
+J11204\tJumbo Baliendijk Breda
+J11205\tJAF Slagerij en Toko
+J11206\tJumbo Piusplein Bergen op Zoom
+J11207\tJumbo Westermarkt Tilburg
+J11208\tJumbo Moerwijk Breda
+J11209\tJurstep BV- Carrefour Dampoort Gent
+J11210\tJumbo Malvert
+J11211\tJumbo Nederlandplein Eindhoven
+J11212\tJumbo Boschdijk
+J11213\tJumbo Elderveldplein
+J11214\tJumbo Heubel
+J11215\tJumbo Papendrecht
+J11216\tJumbo Foodmarkt Tilburg
+J11217\tJumbo Streuvelslaan Roosendaal
+J11218\tJumbo Cypresstraat Breda
+J11219\tJumbo Bart van Peltplein Tilburg
+J11220\tJumbo Vrouweplein Tilburg
+J11221\tJumbo Hilkens Born
+J11222\tJumbo Hammarskjoldhof Utrecht
+J11223\tJumbo Bruins Capelle aan den IJsel
+J11224\tJiyan B.V.
+J11225\tJumbo Malberg
+J11226\tJumbo de Aker
+J11227\tJumbo Hofvijver
+J11228\tJumbo Belcrum
+J11229\tJumbo Brusselsepoort Maastricht
+J11230\tJumbo Kronenburg Arnhem
+J11231\tJumbo Brielle
+J11232\tJumbo Mieremet
+J11233\tJumbo Penders Geleen
+J11234\tJumbo Osdorpplein
+J11236\tJumbo Boom - BOP Retail bv
+J11237\tJumbo Rumst
+J11238\tJumbo Collegeplein Weert
+J11239\tJumbo Den Haag Laakweg
+J11240\tJumbo Niel
+J11241\tJumbo Oosterhout
+J11242\tJumbo Lokeren
+J11243\tJumbo Denderleeuw
+J11244\tJumbo Zelzate
+J11245\tJumbo Sicilieboulevard
+J11246\tJumbo Macleane
+K01030\tSanka Events
+K01031\tVilla Rustica S.A.R.L
+K01032\tBereket Market XXL
+K01033\tJumbo Schoenmaekers Landgraaf
+K01034\tInsaf Market
+K01037\tPLUS Post
+K01038\tPLUS Slingerland Rockanje (441)
+K01039\tDeza 12 B.V.
+K01041\tBroodjeshoek Heerlen
+K01042\tJumbo Dongen
+K11102\tSFB Food
+K11104\tKB Markt mediteran
+K11106\tKen Food Breda B.V.
+K11109\tAvantage Piusplein Bergen op Zoom
+K11113\tKALEMEGDAN
+K11122\tKen Food Tilburg B.V.
+K11123\tKOYLÜ food bvba
+K11129\tJC KEUKEN MONTAGE
+K11133\tKen Food Oss B.V.
+K11136\tKustura Transport
+K11139\tIllyria Group (BVBA)
+K11140\tKafkas ZUID
+K11144\tKenan Foods Sprl
+K11147\tKabul Supermarkt
+K11148\tKaradag Market
+K11451\tKeban Bakkerij b.v.
+K11457\tKozan Company
+K11460\tFisnik-K LdCs GmbH
+K11461\tKMG Market
+K11462\tKalis Balkan
+K11464\tSlagerij Kasapi
+K11465\tKaya Bakerij
+K11469\tKiwi Food Market
+K11470\tKaya's Slagerij
+K11471\tKaradag Bakkerij
+K11472\tKUD Biser
+K11473\tKlas d.d. Sarajevo
+KATUN\tKatun BV
+KLOPA\tKlopa Tilburg
+L11203\tLuana Markt Kiosk
+L11206\tLENA FOOD SERVICE B.V
+L11208\tDe brandt de Craecker
+L11813\tLARA KAAN Sprl
+L11815\tLale Market
+L11817\tLevensmiddelen Het Midden Oosten
+L11819\tLiya Supermarkt
+L11820\tLena Supermarkt
+L11821\tLunchroom Quality
+L11823\tLider Supermarkt B.V.
+L11825\tLara Market Roermond
+L11827\tLux & Balkans Commerce S.á.r.l.
+L11831\tLena Market V.O.F.
+L11833\tLeo's Supermarkt AL-DEM BV
+L11847\tLevant Group
+L11848\tLaurus Trade Limited
+LEPARADIS\tLe Paradis du Fruit s.r.l.
+M11292\tMix Markt Antwerpen
+M11293\tMix Markt Merksem
+M11294\tMINA GROUP b.v.
+M11301\tNessk b.v.
+M11302\tM&R Supermarkt
+M11304\tMarmaris supermarkt B.V.
+M11306\tMega Market Latic
+M11307\tMIX TRADING
+M11309\tBoWiDo B.V.
+M11310\tMCD Fascinatio
+M11312\tMina Tuana food center
+M11313\tMinas feinkost GmbH
+M11314\tMinas Balkan Spez.- Zdenka Maksimovic
+M113196\tABI Supermarkt
+M11320\tVICTUS s.a.r.l. By Sabotic
+M11323\tMinimarket s.a.r.l.
+M11324\tMarhaba
+M11326\tMini Dost market
+M11328\tMarqa Foods International
+M11333\tCelik market
+M11343\tSultan Foodcenter Overvecht bv
+M11345\tMezem Convenience Food b.v.
+M11348\tMagaza Balkan food ltd.
+M11353\tMultivers Supermarkt
+M11354\tMoravski Biser zie M11475
+M11357\tMesara Izvor Sorgente
+M11364\tMagaza Wholesale Ltd
+M11370\tMisija Bosne i Hercegovine EU
+M11374\tStiching Mladi BiH
+M11375\tMaksutoski KG
+M11390\tMazaar bv
+M11400\tMeltem Plaza Mediterrane
+M11404\tMeram BVBA
+M11409\tMeli Food bvba
+M11418\tMEDHI GIDA
+M11421\tSundance Sprl-Maison d'Istrie
+M11422\tMOCCA
+M11423\tMondi 2500 Lier bvba
+M11424\tMIRA Cleaning
+M11426\tMultipazar
+M11427\tMondial Distribution sas
+M11429\tM. Marketim BV
+M11431\tMinu Markt
+M11432\tMonolith Distribution Malta Ltd
+M11433\tMET A4
+M11436\tMeat & Eat B.V.
+M11437\tMerivan Sarl
+M11438\tMinistarstvo vanjskih &europskih poslova
+M11443\tMirom Supermarkt
+M11444\tMensut Bv
+M11452\tMerhaba Market
+M11457\tMulti bazar
+M11459\tMama Supermarket
+M11466\tMi Gross S.R.L.
+M11471\tMaide Food To Go
+M11472\tMeli Food Pelt
+M11473\tMedina Market
+M11477\tMesa
+M11489\tM7 (Marka Market)
+M11494\tMedo's Balkan Grill
+M11498\tMMD supermarkt
+M11499\tMega Markt
+M11500\tMBos (Slim Supermarkt)
+M11501\tM&O Food B.V.
+M11503\tMega Food BV
+M11504\tMevlana Feinkost
+M11506\tMesara Monegro GmbH
+M11507\tManushe Express UG
+M71451\tMZ Exploitatie V.O.F.
+M71452\tMaritz slow food
+M71453\tMimino B.V.
+N11406\tNazar markt
+N11409\tHafzullah Akcan
+N11421\tNazar slagerij en market
+N11422\tNettorama Distributie B.V.
+N11425\tNatura GmbH
+N11431\tNEW EUROPEAN MARKET
+N11439\tNuri baba
+N11440\tNamazi Trading B.V.
+N11442\tTOK FOOD BELGIUM BV
+N11443\tNOA
+N11450\tNaturelfood
+N11451\tNerko Boucherie Charcuterie
+N11452\tNEM Sales en Marketing bv
+N11453\tNAWAAB BV
+N11454\tNisa Super Marche
+N11455\tNergiz Supermarket B.V.
+O11507\tOriental Holding Europe
+O11510\tMesarstvo Oblak d.o.o.
+O11513\tOZHALK MARKET B.V.
+O11514\tOz+Ka Supermarkt
+O11517\tÖzen & Eser Foodmarket
+O11522\tOzde food center BV
+O11523\tOrkide Supermarket b.v.
+O11527\tOz Baktat
+O11634\tOosterse Markt
+O11636\tOLD CITY Bvba
+O11649\tOydam Multimarkt
+O11650\tOrion Media
+O11651\tObala Grupa d.o.o.
+P100KC\tParticuliere verkoop KC
+P11600\tPLUS Retail b.v.
+P116001\tPLUS DC Middenbeemster /CIV Superunie BA
+P11609\tPrijatelji.nl
+P11610\tPlaza markt
+P11614\tProfessionals tegelwerk
+P11625\tBalkan eetcafe Sarajevo
+P11634\tPersoneel EDEX food
+P11635\tBalie verkoop PARTICULIER
+P11637\tPita Shop
+P11642\tPinar Foods (Harun23)
+P11647\tPlivit trade AB
+P6126\tPLUS Montfort
+P61617\tPanorama Market
+P61618\tPlus Kaumans
+P61619\tPLUS Spiertz
+P61620\tPLUS van Lokven
+P61621\tPlus Baarlo
+P61622\tPLUS Blerick
+P61623\tPremium Food GmbH
+P61624\tPlus Linssen
+P61625\tPlus Bos
+P61626\tPlus Arts
+P61627\tPLUS Rosenboom
+P61628\tPlus Beckers
+P61629\tPerzisch Ijsje
+P61630\tPAMIR-LUX S.A.R.L.
+P61631\tPLUS van Velzen Munstergeleen
+P61632\tPlus Spijkerlaan
+P61633\tPLUS Savelkoul
+P61634\tPLUS Burghardt
+P61635\tPLUS Molenweg
+P61636\tPLUS Vessem
+P61637\tPLUS Heerlerheide
+P61638\tPLUS Koopmansplein
+P61639\tPLUS Van Wijlen
+P61640\tPlus Laurijssen Oosterhout
+P61641\tPLUS Geertruidenberg
+P61642\tPlus Valkzicht
+P61643\tPLUS Savelkoul Maastricht
+P61644\tPLUS Paans Empel
+P61645\tPL S.A.R.L-S
+P61646\tPLUS Caberg
+P61647\tPLUS Stephan van Engelen
+P61648\tPLUS Kant
+P61649\tPLUS Yigit
+P61650\tPLUS Franssen
+P61651\tPLUS Versluis
+P61652\tPLUS Oostvoorne
+P61653\tPLUS Walraven
+P61654\tPLUS Gerdes
+P61655\tPLUS Bouwmans
+P61656\tPLUS Heeswijk Dinther
+P61657\tPLUS van Velzen
+P61658\tPitstop Tankstation Beheer B.V.
+P61659\tPanda Supermarket B.V.
+P61660\tPLUS Geldermalsen
+P61661\tPerutnina Ptuj d.o.o.
+P61662\tPlus van Eekelen
+P61663\tPLUS Slooten
+R11801\tTandartsenpraktijk Ribic
+R11805\tREBO B.V.
+R11813\tRania market
+R11820\tRahman & Sons bvba
+R11824\tRegenboog Market
+R11828\tReal Market Sarl
+R11830\tRam's Supermarkt
+R11841\tRoyal Levensmiddelen B.V.
+R11842\tR.A.C. Lohman Levensmiddelen B.V
+R11843\tReksio Supermarkten
+S11160\tSaygin Market
+S11161\tSUPERDAS
+S11162\tSupermarkt Tanger
+S11165\tStichting Voedselbank Altena
+S11166\tStichting Voedselbank Moerdijk e.o.
+S11167\tSafari Supermarkt
+S11168\tSANA Grill
+S11169\tSahan Supermarkten Hoofdkantoor
+S11171\tSevimler Berkan
+S11174\tHazar Versmarkt
+S11176\tStichting SOP Rotterdam
+S11177\tSchermer Wijnkopers
+S11178\tSaffraan Market 3
+S11179\tSultan Ahmet B.V.
+S11181\tSuper Mark Menen
+S11182\tSuper 2
+S11186\tSchildersbedrijf Merak
+S11188\tStichting Tilburgse Voedselbank
+S11192\tScoupy (3PL +)
+S11193\tSMAECK FOODSERVICE BV
+S112002\tSupermarket Sejo
+S11241\tLotus markt B.V.
+S11528\tSahan Schiedam b.v.
+S11900\tSahan Supermarkt Putsebocht b.v.
+S11905\tSerdar Bakkerij
+S11906\tSerhat Impex B.V.
+S11910\tSlavino, Slavische wijnen
+S11911\tSonay Supermarkt
+S11913\tSultan Foodcenter
+S11915\tStarmarket Roermond
+S11931\tSahan Waalwijk b.v.
+S11932\tSahan supermarkt Oranjeboom b.v.
+S11941\tSelin market
+S11942\tSemi tours
+S11943\tSeren market
+S11945\tSBC BVBA
+S11957\tStar Market Vuurplaat b.v. Rotterdam
+S11977\tSeyhmus Market
+S11982\tBright LTD Turkish Mini Market
+S11988\tSerhat Supermarkt
+S11990\tSlagerij Harput v.o.f.
+S11991\tBalkes Market Sarl
+S11999\tSa&Ar Drinks
+S12006\tSupermarkt T Hoekje Pijnacker V.O.F.
+S12016\tSlagerij Genco et Market
+S12020\tSahan Amsterdam B.V.
+S12027\tSahan Superm. Willem Buytewechstraat BV
+S12029\tSupperium Global System S.L.
+S12030\tSupermarkt Huski
+S12031\tSligro Food Groep Nederland B.V.
+S12037\tV.O.F. SU & AY Supermarkt
+S12042\tPak Food OHG
+S12044\tMeatmasters Butchery & Delicatessen
+S12046\tSlagerij Ramak Ypenburg
+S12212\tSmart Food NL B.V.
+S12214\tSupermarkt Pleintjes
+S12216\tSlagerij Zuid
+S12217\tSahan Vlaardingen B.V.
+S12220\tSahan Vierhaven B.V.
+S12221\tSerbika VZW
+S12222\tStrima Sprl
+S12225\tSupermarkt & Slagerij Siya BV
+S12235\tSupermarche KD
+S12237\tSupermarket Herstal
+S12243\tSaday International Food
+S12445\tSylvania Foods limited
+S12446\tSultans Markt Alkmaar
+S12447\tSunny Srl
+S12448\tSahan Roosendaal b.v.
+S12449\tSlagerij Masal
+S12450\tSahan Gouda B.V.
+S12451\tSahan Prins Alexander B.V.
+S12452\tStar market 2 Vuurplaat b.v.
+S12453\tSahan Zaandam B.V.
+S12454\tSupermarkt Masal
+S12455\tSahan Utrecht B.V.
+S12456\tSu&Ay Slagerij&Delicatessenzaak
+S12457\tAvantage s'Gravelandseweg Schiedam
+S12458\tSupermarkt De Lelie
+S12459\tSahin Markt Cuijk
+S12460\tSafe4you Security B.V.
+S12461\tSeha Food SRL
+S12462\tSupermarkt Verbeek
+S12463\tSupermarkt Duin en Strand
+S12464\tSincap Noten Paradijs
+S12465\tSPAR Roggel
+S12466\tSkashy Retail
+S12467\tService Pack B.V.
+S12468\tSupermarkt Ingelmunster
+S12469\tSAR-AY Supermarkt
+S1450\tSmulders Catering B.V.
+T10627\tFresh Food de Mare
+T112020\tTanger Markt Anderlecht
+T12001\tTanger Supermarkt
+T12005\tTogo im- en export levensmiddelen
+T12010\tTan-Tan Sprl
+T12011\tTok GmbH
+T12023\tSlagerij Tuana
+T12030\tTadal SA
+T12039\tTUR-NED International trading BV
+T12043\tTanger Markt Slotermeer BV
+T12044\tTanger Markt Venserpolder B.V.
+T12045\tTanger Markt Zaandam
+T12046\tTanger Markt R'dam West
+T12047\tTanger Markt Almere B.V.
+T12048\tTanger Markt Lombardijen B.V.
+T12049\tTanger Markt R'dam Zuid B.V.
+T12050\tTanger Markt Stede B.V.
+T12051\tTanger Markt Eindhoven B.V.
+T12052\tTanger Markt Megastores B.V.
+T12053\tTanger Markt Utrecht B.V.
+T12054\tTanger Markt Antwerpen
+T12055\tTanger Markt Borgerhout
+T12056\tTanger Markt Kiel
+T12060\tTanfood Company
+T12065\tTEK - Yilmaz
+T12068\tTanger Marché Bondy Sarl
+T12070\tTekbir Market
+T12074\tTante Emmaladen
+T12075\tTradita BV
+T12078\tTom Coffee+Paper Goods
+T12083\tTuncmar Supermarket VOF
+T12085\tTatli B.V.
+T12087\tTek Market
+T12089\tTulek Vers Market
+T12095\tAvantage Wilheminapark Tilburg
+T12098\tTastify Inverst
+T12099\tTaiba Supermarkt
+T12100\tTurQuaz Bergweg B.V.
+T12101\tTurQuaz Schans B.V.
+T12102\tTransport Van Overveld b.v.
+T12103\tSlagerij Asterlo
+T12104\tTankshop Brunssum
+T12106\tTropical Garden
+T2039\tThe Balkan Kitchen
+TANGER\tTanger Distributiecentrum B.V
+TERZA\tTerza Lacrima d.o.o.
+U1203\tUnsal winkel
+U12107\tUstaca Groothandel
+U12109\tUnidex BV
+U12110\tUCGUL bvba
+U12115\tAvantage Van Heuvengoedhartlaan Utrecht
+UTILIZE\tUtilize
+V12200\tSahin Market Cuijk
+V12203\tVinodol Trading
+V12204\tVjatka Russische specialiteiten
+V12215\tVan Loon Eersel BV
+V12218\tV.O.F. Versmarkt Veltum
+V12221\tVoedselbankBreda.NL
+V12226\tVersmarket J. Chrif
+V12227\tVers Market Bussum
+V12233\tV.O.F. Supermarkt CITY II
+V12239\tVeMi Food
+V12240\tVan Loon Best
+V12242\tVeltrix D.O.O.
+V12243\tVersmarkt Paradiso
+V12244\tViande Halal Boucherie bv (Mega Market)
+V12245\tVakantie Supermarkt Baarland B.V.
+V12246\tVers Markt Mortsel
+W12301\tWilly's Market
+W12306\tWERZ Wurst-Fleisch GmbH
+W12313\tWe Just Know It
+W12315\tWorld of Bread BV
+W12320\tWorld of energy drinks
+W12324\tWereldFood
+W12326\tWatan Market (AQSA BV Market)
+WS00000003\tEDEX Food
+WS00000004\tLara Supermarkt Alkmaar
+WS00000011\tAtes market Geleen
+WS00000012\tTurkiyem market
+WS00000017\tMega Fashions
+WS00000019\tHas K.B.S supermarkt
+WS00000028\tIzmir bazar Tilburg
+X11001\tXenos BV
+Y11601\tOmsa srl.
+Y11607\tYasam Supermarkt
+Y11611\tYasar market Heerlen
+Y11613\tYara Supermarkt Drachten
+Y11614\tYildiz Food B.V.
+Y11618\tYilmaz Food SPRL
+Y11620\tV.O.F. Yara market
+Z10232\tZAM ZAM XL
+Z10239\tBidfood
+Z10243\tZamzam Supermarkt`;
+
+var ARTICLE_DATA = `1002\tFranck koffie JUBILARNA 400g
+1003\tDon cafe 500g - Moment
+1004\tGrand GOLD 500g
+1005\tMinas koffie 250g
+1006\tGrand koffie GOLD 200g
+1008\tMinas koffie 500g
+1009\tDon caffe 500g - Minas
+1010\tZlatna dzezva koffie 200g
+1011\tZlatna dzezva koffie 500g
+1016\tEspresso koffie 1 kg
+1017\tPrince koffie 500g
+1018\tC kafa 500g
+1100\tAjvar 350 g pittig Podravka
+1101\tAjvar 690 g pittig Podravka
+1102\tAjvar 350 g mild Podravka
+1105\tAjvar 690 g mild Podravka
+1106\tCornichons 720ml Natura
+11061\tCornichons 1700 ml NATURA
+11062\tAUGURKEN 720ml Natura
+11063\tTHOMY Majonese 265 g
+11064\tZVIJEZDA Mayonaise tradicional 400g
+11065\tZVIJEZDA Ketchup mild 500g
+11066\tZVIJEZDA Zonnebloem olie 1L
+11067\tZVIJEZDA Margarine 250g
+11068\tZvijezda margarine 250g
+1107\tCornichons 2500 ml NATURA
+1108\tPaprika filet geel 2500 ml NATURA
+11086\tPaprika u pavlaci 700g Natura
+11087\tAjvar NATURA mild 370 ml
+11088\tAjvar NATURA hot 370 ml
+11090\tAjvar 340 g mild - NATURA BiH
+11092\tAjvar 580 ml pittig - Natura
+11093\tAjvar 580 ml mild - Natura
+11095\tAjvar 720ml pittig - Natura
+1111\tAjvar 580 ML mild - Vipro
+1112\tAjvar 580 ML pittig - Vipro
+11120\tLutenica 550g amfora -NATURA
+1114\tNATURA Rote Kirschpaprika 470g
+1115\tNATURA Gelbe Kirschpaprika 470g
+11173\tZuurkool vacuüm - MEZZA
+1122\tNatura - Tetovac witte bonen 900g
+1123\tNatura - Sareni grah 900 g
+1124\tLutenica 580ml - Vipro
+1125\tSOMBORKA paprika in Olie 2500ml
+1128\tNATURA Zuurkool blad 1700 ml
+1131\tSomborka met zuurkool 2500ml-Natura
+1132\tTomaten paprika 2500ml Natura
+11321\tSomborka paprika 2500ml NATURA
+1133\tPaprika filet geel 720 ml Natura
+1134\tSomborka met zuurkool 720ml -Natura
+1137\tPaprika gegrild 1500 ml NATURA
+11371\tPaprika gegrild 680g NATURA
+1139\tSalat mix 720ml - Natura
+1140\tMEZZA Zuurkool bladeren 1700ml
+1143\tRode bieten 720 ml NATURA
+1153\tTomatenpaprika met zuurkool 720ml Natura
+11531\tApfel paprika 720ml Natura
+1154\tSalat mix 2500ml NATURA
+1161\tNatura Tursija 2500ml
+1163\tPfefferoni Scharf 370ml Natura
+1168\tPfefferoni scharf 720ml Natura
+1169\tPfefferoni mild 720ml Natura
+1170\tAjvar 550g MILD - Granny's Secret
+1171\tAjvar 550g HOT- Granny's Secret
+1172\tAjvar 200g mild - Granny's Secret
+1173\tAjvar 200g pittig- Granny's Secret
+1175\tMalidzano 540 g NATURA
+1176\tMamas Ajvar 550 ml - mild
+11761\tMAMA'S Ajvar 550 ml - pittig
+1177\tMAMA'S Ajvar 290 ml mild
+11771\tMAMA'S Ajvar 290 ml - HOT
+1181\tPaprika filet rood 720 ml -Natura
+1182\tPaprika filet rood 2500ml-Natura
+1183\tAppel pap. met zuurkool 2500ml Natura
+12009\t5 PACK Indomie SHRIMP
+1201\tGroentesoep met noodles 58g Podravka
+12021\t5 PACK IndoMie CHICKEN
+12022\t5 PACK IndoMie BEEF
+12023\t5 PACK IndoMie VEGETABLE
+12024\t5 PACK IndoMie SPECIAL CHICKEN
+12026\t5 PACK IndoMie MI GORENG
+12029\tEAT & JOY Original Fried noodle CUP 70g
+1203\tDOMACA MESNA soep 62g *Podravka
+12031\tGURIMI CUP chicken noodle 60g
+12040\tEAT & JOY Super spicy Fried bag 5-pack
+12041\tGURIMI Chicken Noodle bag 5-pack
+12043\tGURIMI Vegetable bag 5-pack
+12044\tGURIMI Mi Goreng bag 5-pack
+1205\tRUNDERSOEP 65 g Podravka
+1206\tKIPPENSOEP 62g, Podravka
+1210\tSVATOVSKA soep 58 g
+1211\tKIPPENSOEP Vispak
+1212\tTarhana soep 60g, Vispak
+12123\tSarajevska corba -Vispak
+12124\tBegova corba -soep Vispak
+12125\tDomaca corba Vispak.
+12127\tPosna juha 52g ----- Vispak
+12129\tJuha sa gris 52g - Vispak
+1213\tTAJNA GRILL 40g
+12130\tTAJNA Roasted chicken 40g
+12131\tTAJNA Gulas i paprikas 60g *
+12132\tTAJNA Cevapi i pljeskavice 40g
+12133\tTAJNA Grah i variva 60g *
+12134\tTAJNA Punjene paprike 50g *
+1214\tFANT cevapcici en hamburgers 40g
+1216\tFANT goulash en paprikash 65g
+1218\tFANT gevulde paprika 60 g
+1221\tVERDURA kruidenmix 500g
+1224\tVegeta 250g
+1226\tVegeta 500g
+1228\tVegeta 1 kg
+1230\tVegeta 200 G ZAKJE
+12302\tVegeta emmer 5 kg
+1233\tPaprika poeder 100g mild - Vispak
+12343\tHULALA Whipping Classic 500ml
+1240\tVegeta BIO 120g
+1245\tKaramell Farsitura 850g NATURA
+12501\tNATURA Palenta GROF 1000g
+12502\tNATURA Palenta FIJN 1kg
+12511\tNATURA MAis meel 1000g
+1252\tKLAS Zlatni puder 1kg-
+12520\tKLAS- TIP 500 5kg- meel
+1253\tKLAS Zlatni puder 2 kg MEEL
+12531\tKLAS- TIP 500 Tarwe meel 1kg
+12532\tKLAS TIP 550 Meel - 2kg
+12534\tKLAS Zlatni puder 5kg- meel
+12537\tMAIS MEEL 1 KG Poljorad
+1254\tKLAS Pasta -TAGLIATELLE 400g
+12540\tBRASKO Domaca Tarhana 400g
+12541\tBRASKO Tarhana sa povrcem 400g
+1255\tKLAS FIDELINI -Vermicelli 400g
+12551\tKLAS Macaroni - LUMACHE 400g
+12552\tKLAS Macaroni - TORTIGLIONI 400g
+12553\tKLAS Pasta - PAPPARDELLE 400g
+1257\tJufka- paster. KLAS 500g
+1258\tJufka- vers KLAS - 500g
+12582\tJUFKA Au Ble d'or 470g
+1261\tZout-Tuzlanska So 1kg
+1273\tSir LIVADA -kaas ca. 400g
+1274\tKATUN Mladi Kajmak 200 gr
+12741\tKATUN Paprika u pavlaci 500g
+1275\tPOLJORAD Kajmak 200g Roomkaas
+1276\tABC Roomkaas 200g
+1277\tPoljorad gerookte kaas 300g
+1279\tDIMKO rookkaas 400g Poljorad
+12791\tKashkaval kaas 400g Poljorad
+12792\tPaprika sa kajmakom 500g Poljorad
+12794\tKATUN Kajmak 900g
+1281\tKATUN 400g Mladi Kajmak
+1282\tKATUN Travnicki kaas 800g
+1286\tKATUN Mediterranean white 800g
+12861\tKATUN Mediterranean white 400g
+1287\tKATUN GOAT- geiten kaas 400g
+1288\tKATUN Schapen kaas 400g OVCIJI
+1301\tCajna Brajlovic 300g
+13013\tRunder RAMSTEK gesneden 70g Brajlovic
+13014\tGerookte rundernek gesneden 70g Brajlov
+1303\tPEPI kippen worst 400g
+13031\tPILKO kipknakworst 600g- BRAJLOVIC
+1304\tPIVKA kipknakworst 600g
+13041\tPILKO kip worst 400g- BRAJLOVIC
+1305\tCoktail worstjes 500g PIVKA
+1307\tMEZZA SLICE KIPWORST met paprika135g
+13071\tMEZZA SLICE kipworst met rundvlees135g
+13072\tMEZZA SLICE kipfilet ovengebraden135g
+13073\tMEZZA SLICE Kalfs bacon 135g
+1308\tMEZZA Grill Runderworst 500g
+1310\tPIVKA Gerookte kipfilet 350g
+1311\tNjami kipknakworst 200g PIVKA*
+1312\tCLASSIC kipknack worst 220g PIVKA*
+1313\tBarbique kippenworst 400 g PIVKA
+1314\tPIVKA grill kippennworst 340 g
+1315\tKraiska ljuta Brajlovic 300g*PRIJS
+1317\tPOLI kippenworst 500g
+13170\tPOLIDOG 330g *PRIJS
+13172\tPOLI - COCTAIL knakworst 330g
+13175\tPerutnina EXTRA knakworst 200g
+13176\tPoli mini kippenworst 220g
+13179\tPerutnina Gala Kippenworst 400g
+1318\tSarajevska 300g Brajlovic
+1321\tGerookte Schapenvlees 350g Brajlovic
+1322\tRunderrook ribben ca. 350g - Brajlovic
+13221\tMEZZA Govedja rebra
+1323\tMEZZA Suho meso PREMIUM ca.500g
+1324\tBosna Sudzuk Knoflook 400 g MEZZA
+13242\tBosna Sudzuk 400g MEZZA
+1325\tSudzuk BRAJLOVIC 400g
+1326\tSudzuk met knoflook 300 gr Brajlovic
+1327\tBosna sudzuk PREMIUM 450g MEZZA
+13271\tMezza Bosna sudzuk 250g
+1328\tSuho meso knoflook Brajlovic ca.350g
+1329\tSuho meso BRAJLOVIC ca.350g
+13290\tDomace Suho meso knoflook 350g Brajlovic
+13292\tDomace Suho meso 350g BRAJLOVIC
+13294\tRamstek-Premium steak 400g BRAJLOVIC
+13297\tGovedji Vrat- Coppa 400g BRAJLOVIC
+13298\tSchapen ham-Ovciji but 400g BRAJLOVIC
+1331\tTirolska 500g PIVKA*
+1332\tEkstra kippenworst 800g PIVKA
+1333\tPIVKA Chicken special salami 800g
+1334\tPileci narezak 400g Pivka *
+1335\tPERUTNINA Extra 800g
+13350\tPerutnina EXTRA 350g
+13351\tZdenka smeerkaas Classic 140g
+13352\tZdenka smeerkaas Cardas 140g
+1381\tKOSOVA SUXHUK 500g MEZZA
+1383\tMirusha SKENDERBEU 500g
+1384\tSHTEPIAK pikant 800g MIRUSHA
+1385\tMIRUSHA Suxhuk mild 2x450gr
+1500\tArgeta JUNIOR 95g
+15001\tArgeta TONIJN 95g
+15004\tArgeta Picant TONIJN 95g
+15007\tArgeta HARISSA 95g - Halal
+15011\tArgeta JUNIOR - HALAL 95g
+15016\tArgeta PICANT 95 g
+1502\tArgeta KIP 95g
+15022\tArgeta PIKANT HALAL 95g
+15024\tArgeta HALAL 95g -kip
+15028\tPOLI Pate classic 95g
+15029\tArgeta Chicken Sudzuk Halal 95g
+15040\tArgeta Meatless A'La kip 95g
+15041\tArgeta Meatless A'La kip Pikant 95g
+1514\tMEZZA Chicken pate 50g
+1515\tMEZZA Chicken pate HOT 50g
+1516\tMEZZA Tuna pate 50g
+1520\tRundvlees goulash 200g Podravka
+15201\tMEZZA GULAS 200g Halal
+1521\tRundvlees goulash 300g Podravka
+15211\tRundvlees goulash 300g HALAL
+1522\tRundvlees goulash 400g Podravka
+15221\tMEZZA GULAS 400g Halal
+15222\tMEZZA Grah bez mesa 860g
+1526\tNarezak -CORNED BEEF 200g Podravka
+15260\tNarezak 200g HALAL Podravka
+15261\tMEZZA GOVEDJI NAREZAK 200G Halal
+1528\tKippenpastei 135 g Podravka
+15281\tKippenpastei 135 g - HALAL
+15302\tDELATERA Kippaté 100g
+1531\tKippenvlees stukjes 150g Delatera
+15311\tMEZZA KIP NAREZAK 200G Halal
+15331\tKalkoenvlees stukjes 150G PIVKA
+1545\tDelamaris Tuna-Steak 4x80g
+1550\tDelamaris Sardine in olie 90g
+1551\tDelamaris Sardine mediteran olie 90g
+1552\tDELAMARIS IZOLA BRAND salad 125g
+1553\tDelamaris Sardine pikant 90g
+1555\tDELAMARIS PROVENCALE salad 125 g
+1600\tIMPERIAL Suiker klontjes 750g
+16011\tPODRAVKA Pruimen jam 350g
+16021\tPODRAVKA Rozenbottels jam 360g
+1700\tBajadera bonbons 200 g Kras
+1702\tMINI BANANKO 120g, Kras
+1703\tNJAMB Crispy choco 150g
+17032\tNJAMB Extra choco 150g
+17033\tEurocrem FILBI biscuits 125g
+17037\tWOW Medenjaci 400g Sumaks
+17038\tWOW Medenjaci 200g
+17039\tWOW Witte Medenjaci 400g
+1704\tChocola banaantjes 150g Pionir
+1705\tSTARK Bananica 125 gr.
+17051\tSTARK Bananica 25g Stark
+17053\tSTARK Bananica 400g
+1706\tBANANKO- 30g Kras
+1707\tBosnische lokum 400g koekjes Klas
+1708\tBosnische lokum 180g Klas
+1709\tBRONHI hoestbonbons 100g Kras
+1711\tKARMELA WAFELS 400G
+17111\tKOKOS CHOCO NAPOLITANKE 250g
+1713\tZivotinjsko carstvo 15g melkchocola
+1714\tDOMACICA extra CHOCO 220 g
+1715\tChoco strudla 250g MASTER
+1716\tDOMACICA 300g Kras
+1720\tDorina RICE 220g
+1722\tDorina PUUR cooking 200g
+1723\tDORINA NOISETTE 80 G
+1724\tDorina ICE- LEDENA 100g
+1725\tDorina RICE 75g
+1726\tEurocrem chocopasta 300g Swisslion
+17260\tEurocrem PLUS 700g Swisslion
+17263\tEUROKREM MIX 280G
+17271\tEuroblok chocolade 90gr Swisslion
+1728\tEurocrem chocopasta 100g Swisslion
+1729\tEurovafel 180g Swisslion
+1730\tEurocrem chocopasta 1kg Swisslion
+1731\tMILK Eurovafel 180g
+1732\tCHIPSY classic Marbo 210 gr.
+17321\tCHIPSY classic Marbo 140g
+17322\tCHIPSY X cut salted 140g
+17323\tCHIPSY X cut CHILI 140g
+17324\tCHIPSY X cut CHILI 210g
+17325\tCLIPSY Chicken drums 110g
+17326\tCrispy Fun Chili 50g
+17327\tCrispy Fun Sour Cream and Onion 50g
+17328\tCrispy Fun Chicken 50g
+17329\tGedroogde pruimen zonder pitten 200g
+17330\tCHIPSY X cut CHILI 130g
+1734\tSNACKY Flips rond 130g
+1735\tPETIT BEURRE 480 g KRAS
+17358\tGOLD Chips naturel 180g
+17359\tGOLD Chips CHILLI 170g
+1736\tGold Flips 140g
+17362\tSmoki 150g Stark
+17366\tSmoki CHOCO 80g Stark
+17367\tSmoki 250g Stark
+1737\tJaffa cakes sinas 150g
+17371\tJaffa BROWNIE choco 75g
+17374\tTOPS Biscuit 125 g
+1738\tJADRO ORIGINAL 430g
+17381\tJADRO original 190g
+1739\tLINO lada DUO 350g
+1740\tLINO Lada GOLD 350g
+17401\tLINO lada MILK 350g
+1741\tJADRO KOKOS 430g
+1742\tKokos desert Pionir 30g
+1743\tKesten desert 30 g Pionir
+1744\tKiki PLUS 100g KRAS
+1745\tKIKI TUTTI FRUTTI 100g
+17450\tKATJA Apekoppen 410g
+17451\tKATJA Yoghurt Gums 410g
+17452\tKATJA Regenboog Geluk 400g
+17453\tKATJA Al Paca 250g
+1746\tFRONDI NOUGAT 250g
+17462\tFrondi Limun 250g
+17465\tFRONDI CACAO 250gr
+1747\tLane biscuits 600g
+17471\tLane CHOCO biscuits 135g
+1748\tLane biscuit 300g
+17481\tLane POSNO biscuits300g
+1749\tLane gemalen 300g
+17491\tLane POSNO gemalen 300g
+17492\tLane POSNO gemalen 300g
+17495\tLane biscuit 135g
+1752\tJAFFA Napolitanke Cremè 187 g
+17521\tJAFFA Napolitanke Cremè 187 g
+1753\tLesnik karamela 100 g
+1754\tMedeno srce -Honing hartjes 350g
+17541\tVINCINI Tortina 200g Melk
+17542\tVINCINI Tortina 200g Aardbei
+17543\tVINCINI Tortina 200g Cacao
+17546\tVincini Jumbo Roll Aardbei 300g
+17547\tVincini Jumbo Roll Karamel 300g
+17548\tVincini Rondo Cake Marble 360g
+1755\tPEPERMINT snoepjes 100g Kras
+17551\tMedeno srce KERSEN 350g
+17560\tVITANOVA gemalen 300g
+17561\tVITANOVA koekjes 150g
+17562\tPIONIR ALPHABET 100g
+1758\tJaffa wafers Choco & orange 160g
+17581\tJaffa wafers Choco & orange 160g
+1759\tMOTO cacao 288g
+1760\tMunchmallow koekjes 105g
+1762\tIsleri duo pack 250g
+1763\tNAPOLITANKE CHOCO CREAM 327G
+1765\tNAPOLITANKE LEMON 327g Kras
+1766\tNAPOLITANKE NOUGAT 500g Kras
+17660\tNapolitanke Choco cream 500g
+17661\tNAPOLITANKE NOUGAT 327g
+1767\tNEGRO hoestbonbons 100g
+17670\tNEGRO citroen- gember snoep 100g
+1771\tSOFKA Wafelbladeren 200g
+17721\tVINCINI Donker Taartenbodem 400g
+17722\tVINCINI Licht Taartenbodem 400g
+1777\tMINJON KOCKE Pionir 260g
+1782\t2+1 gratis Sticks met pindas 100g
+17821\tPrima Stapici 230g- VEGAN
+17822\tPrima Salty Sticks 220g-Vegan
+1783\tTRIK mix 300g -Pizza
+17831\tRocky Four seeds cracker 200g Vincinni
+17832\tRocky PARTY mix cracker 250g
+17833\tRocky ORIGINAL cracker 250g
+1784\tTRIK mix 300g
+17840\tSALTY MIX 280g Foody
+17841\tDISPLAY TRIK MIX
+1786\tStrudla BROWNIE/ MALINA 240G Medela
+1787\tStrudla MIX Medela 240 g
+1788\tStrudla Medela vijgen 240g-
+1790\tVanille koekjes KLAS 220g
+1791\tKlas Sarko Nera koekjes 200g
+1792\tSUNDAY BAKLAVA 1,5kg pistache
+1793\tCokolino, kindervoeding 200g
+1794\tCOKOLINO 1 kg Podravka
+1795\tCOKOLINO 500g Podravka
+1796\tLino Lada Pillows Nougat 250g
+1797\tLino lada Pillows Milk 250g
+17980\tSUNDAY Vanilica 500g
+17987\tSUNDAY Pistache Baklava 500g
+17988\t1,5 kg SUNDAY PETIT FOUR
+17989\t1,5 kg SUNDAY GURABIJA
+17990\tSUNDAY Choco Baklava -kersen 350g
+17992\tSUNDAY Petit Four 750g
+17993\tSUNDAY Petit Four Choco Abrikozen 350g
+17994\tSUNDAY Tulumba mini 500g
+17996\tSUNDAY Baklava 500g
+17997\tSUNDAY Gurabija met amandelen 400g
+17998\tSUNDAY Orient mix 400g
+17999\tSUNDAY Kadaif 400g
+1802\tKamille thee 20g, VISPAK
+18021\tBrusnica- Cranberrie thee 40g VISPAK
+1803\tPlaninski caj-Berg thee 36g VISPAK
+1804\tThijm thee VISPAK 30g
+1805\tMunt thee VISPAK 30g
+1806\tRozenbottel thee VISPAK 50g
+1809\tUvin thee 30g, VISPAK
+1810\tEmona premium thee 400gr
+1812\tEmona 444A Zwarte thee - 700gr.
+1813\tEmona Premium thee 800 gr
+1902\tChocolate cake 1000g Gusto
+19020\tHoney cake -frozen 800g
+19021\tBelgian cake -frozen 800g
+19022\tFur caps 300g Gusto
+19023\tWhipped cream pie 250g Gusto
+19026\tHurmasica 500g KLAS
+19029\tNougat cake 1000g Gusto
+1903\tKLAS Somun 2x200g
+19030\tSOFKA LEPINJA 2 X 200g
+19032\tTulumba 400g KLAS
+19033\tBaklava 500g KLAS
+19039\tLepinja - Somun 4x150g
+19041\tKrempita 350g Gusto e sapore
+19042\tMedena torta 1400g
+1905\tTRI LECE gebak 630g
+1907\tMEZZA Cevapi Banjaluka 730g
+1908\tMEZZA Cevapi Sarajevo 750g
+19080\tMEZZA Cevapi SA HORECA
+19081\tMezza Cevapi Sarajevo 500g zak
+19111\tPOLI DOG Rolls 660g
+1913\tSOFKA BUREK Rundvlees 480g
+1914\tSOFKA BUREK Spinazie+Kaas 480g
+1915\tSOFKA BUREK Aardappel 480g
+1916\tSOFKA BUREK Kaas 480g
+19161\tSOFKA FAMILY BUREK rundvlees 500g
+19162\tSOFKA FAMILY BUREK met Kaas 500g
+19163\tSOFKA FAMILY BUREK met spinazie 500g
+19164\tSofka MANTIJA -BITES rundvlees 700g
+19165\tSOFKA MANTIJE -BITES KAAS 700g
+19166\tSOFKA MANTIJE -BITES SPINAZIE 700g
+19171\tMantije kip vlees 700g
+19173\tPerutnina Chicken nuggets 400g
+19174\tPerutnina Chicken wings 600g
+1922\tMEZZA Cevapcici Leskovac 800g
+1923\tMEZZA Balkan grill mix 980g
+1937\tCevapcici 800g BRAJLOVIC
+1938\tCevapcici Banjaluka 800g BRAJLOVIC
+1939\tHamburger TK 800g BRAJLOVIC
+20001\tNL Golden Eagle 0,25L ENERGYDRINK
+2001\tGOLDEN EAGLE 6 -PACK
+20011\tLotte Aloe Vera druivensap 240ml
+20012\tLotte Aloe Vera met granaatappelsap 240m
+20013\tLotte Aloe Vera met mangosap 240m
+2002\tNestea Forest Fruit 0,5L
+20020\tNestea Forest Fruit 1,5L
+20024\tNestea Lemon can 0,33L
+20026\tNestea Peach can 0,33L
+20027\tNestea Peach 0,5L
+20028\tNestea Peach 1,5L
+2003\tOAZA natural water 1,5L
+20032\tOAZA mineraal water /glas 0,25L
+2004\tOAZA natural water 0,5L
+20046\tOATLY haver BARISTA 1L
+200460\tOATLY haver BARISTA 0,5L
+200462\tOATLY Caramel Macchiato 235 ML
+200463\tOATLY Cappuccino 235 ML
+20047\tOATLY haverdrank VOL 1L
+20048\tOATLY haverdrank KAKAO 1L
+2005\tCedevita GO 340ml orange
+20050\tOATLY HAVER VANILLE 1L
+20051\tCedevita GO 340ml -lemon
+20052\tCedevita GO DISPLAY
+20053\tCedevita GO 340ml Mango Ananas
+20054\tBerem Ayran 0,25L
+20055\tCedevita display
+2006\tCedevita 455g ORANGE
+20061\tCedevita 455g LEMON
+20062\tCedevita 455g LIMETA
+20063\tCedevita 455g RED ORANGE
+20064\tCedevita 900g LEMON
+20065\tCedevita 900g ORANGE
+20066\tCedevita Ananas Mango 900g
+20081\tCockta 0,275L
+2009\tCockta 1,5L
+20090\tCEDEVITA ORANGE 24 G
+20091\tCEDEVITA LEMON 24 G
+2012\tStrumka 1,5l -limonade
+2016\tDonat Mg 1L
+2017\tDonat Mg 0.5L
+2018\tSarajevski Kiseljak 1,5L min. water
+2019\tSarajevski Kiseljak 0,5Lmin. water
+20191\tOAZA GOLD Koolzuurhoudend 1,5 L
+2020\tProlom bronwater 0.5l
+2021\tCOCA COLA 2L
+2022\tProlom 1,5L bronwater
+2023\tSensation-1,5l LIME-KIVIANO
+2024\tSensation 0,5L - lime-kiwiano
+20251\tFanta 1,25L shokata
+20253\tFanta 1,5L Tropical Exotic
+2026\tFanta 0,5L Shokata
+20261\tFanta Exotic Tropicool 1,25L
+20262\tFanta Exotic Tropicool 0,5 L
+2027\tSensation 1.5l DUNJA KRUSKA
+2028\tSensation 0,5L DUNJA KRUSKA
+2029\tJana Ice Tea 1.5l Waldfrucht
+2030\tJana Ice Tea 1.5l peach
+2031\tJana Ice Tea Framboos&Hibiscus 1.5L
+2032\tJana Ice Tea 0.5l Waldfrucht
+2033\tJana Ice Tea 0.5l Breskva
+2034\tJANA bronwater 1,5L
+20341\tSWITY MULTIVITAMIN 1,5L
+20342\tSWITY LIMUNANA 1,5L
+20343\tSWITY LIMUNANA 0,5L
+20344\tSWITY BOSBES-ARONIA 1,5L
+20345\tSWITY BOSBES-ARONIA 0,5L
+20504\tORANGINA 0.5L
+205041\tORANGINA 1.25L
+20505\tORANGINA CAN 0,33L
+20506\tSPEZI 0.5L
+20507\tSPEZI blik 0,33L
+7002\tKruiden mix sarajevo 2 x 11.200kg
+8015\tArgeta RAMADAN DISPLAY : 336 st Argeta`;
+
+function parseData(data){
+  var lines = data.split("\n");
+  var result = [];
+  for(var i=0;i<lines.length;i++){
+    var line = lines[i];
+    if(!line.trim()) continue;
+    var idx = line.indexOf("\t");
+    if(idx === -1) continue;
+    var code = line.substring(0, idx).trim();
+    var name = line.substring(idx+1).trim();
+    if(code) result.push({code:code, name:name});
+  }
+  return result;
+}
+
+var customers = parseData(CUSTOMER_DATA);
+var articles  = parseData(ARTICLE_DATA);
+var selectedCustomer = null;
+var selectedArticle  = null;
+var retourProducts   = [];
+
+var elDatum = document.getElementById("datum");
+var elChauffeur = document.getElementById("chauffeur");
+var elCustomerSearch = document.getElementById("customerSearch");
+var elCustomerResults = document.getElementById("customerResults");
+var elSelectedCustomer = document.getElementById("selectedCustomer");
+var elRetourreden = document.getElementById("retourreden");
+var elAlgemeneOpmerking = document.getElementById("algemeneOpmerking");
+var elArticleSearch = document.getElementById("articleSearch");
+var elArticleResults = document.getElementById("articleResults");
+var elSelectedArticle = document.getElementById("selectedArticle");
+var elAantal = document.getElementById("aantal");
+var elProductOpmerking = document.getElementById("productOpmerking");
+var elProductList = document.getElementById("productList");
+var elRetourList = document.getElementById("retourList");
+var elRetourCount = document.getElementById("retourCount");
+var elStatRetours = document.getElementById("statRetours");
+var elStatStuks = document.getElementById("statStuks");
+var elToast = document.getElementById("toast");
+
+elDatum.value = new Date().toISOString().slice(0,10);
+
+function normalize(text){
+  if(!text) return "";
+  var s = String(text).toLowerCase();
+  s = s.replace(/ğ/g,"g").replace(/ü/g,"u").replace(/ş/g,"s").replace(/ı/g,"i")
+       .replace(/ö/g,"o").replace(/ç/g,"c").replace(/â/g,"a").replace(/î/g,"i")
+       .replace(/û/g,"u").replace(/ë/g,"e").replace(/é/g,"e").replace(/è/g,"e")
+       .replace(/ê/g,"e").replace(/á/g,"a").replace(/à/g,"a").replace(/ó/g,"o")
+       .replace(/ò/g,"o").replace(/ú/g,"u").replace(/ù/g,"u").replace(/ñ/g,"n")
+       .replace(/ß/g,"ss").replace(/&/g,"en");
+  try { s = s.normalize("NFD").replace(/[\u0300-\u036f]/g,""); } catch(e){}
+  return s;
+}
+
+function escapeHtml(text){
+  if(!text) return "";
+  return String(text).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+         .replace(/"/g,"&quot;").replace(/'/g,"&#039;");
+}
+
+var toastTimer = null;
+function toast(msg, type){
+  elToast.textContent = msg;
+  elToast.className = "toast show " + (type||"");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ elToast.className = "toast"; }, 3500);
+}
+
+function setupSearch(inputEl, resultsEl, selectedEl, source, onSelect, onClear){
+  var activeIndex = -1;
+  function close(){ resultsEl.classList.remove("open"); resultsEl.innerHTML=""; activeIndex=-1; }
+
+  inputEl.addEventListener("input", function(){
+    var query = normalize(this.value).trim();
+    onClear();
+    selectedEl.classList.remove("show");
+    selectedEl.innerHTML = "";
+    resultsEl.innerHTML = "";
+    activeIndex = -1;
+    if(!query){ close(); return; }
+
+    var found = [];
+    for(var i=0; i<source.length && found.length<40; i++){
+      var item = source[i];
+      if(normalize(item.code).indexOf(query) !== -1 || normalize(item.name).indexOf(query) !== -1){
+        found.push(item);
+      }
+    }
+
+    if(!found.length){
+      resultsEl.innerHTML = '<div class="result-none">Niet gevonden / Nije pronađeno</div>';
+      resultsEl.classList.add("open");
+      return;
+    }
+
+    var html = "";
+    for(var j=0; j<found.length; j++){
+      html += '<div class="result-item" data-idx="'+j+'"><div class="result-code">'+escapeHtml(found[j].code)+'</div><div class="result-name">'+escapeHtml(found[j].name)+'</div></div>';
+    }
+    resultsEl.innerHTML = html;
+    resultsEl.classList.add("open");
+
+    var items = resultsEl.querySelectorAll(".result-item");
+    for(var k=0; k<items.length; k++){
+      (function(idx){
+        items[idx].addEventListener("click", function(){ pick(found[idx]); });
+      })(k);
+    }
+  });
+
+  inputEl.addEventListener("keydown", function(e){
+    var items = resultsEl.querySelectorAll(".result-item");
+    if(!items.length) return;
+    if(e.key === "ArrowDown"){ e.preventDefault(); activeIndex = Math.min(activeIndex+1, items.length-1); }
+    else if(e.key === "ArrowUp"){ e.preventDefault(); activeIndex = Math.max(activeIndex-1, 0); }
+    else if(e.key === "Enter"){ e.preventDefault(); if(items[activeIndex]) items[activeIndex].click(); return; }
+    else if(e.key === "Escape"){ close(); return; }
+    else return;
+    for(var i=0;i<items.length;i++){
+      if(i===activeIndex) items[i].classList.add("active");
+      else items[i].classList.remove("active");
+    }
+  });
+
+  function pick(item){
+    onSelect(item);
+    inputEl.value = item.code + " - " + item.name;
+    close();
+    selectedEl.classList.add("show");
+    selectedEl.innerHTML = '<span>✓ <strong>'+escapeHtml(item.code)+'</strong> - '+escapeHtml(item.name)+'</span><button type="button" class="clear">✕</button>';
+    selectedEl.querySelector(".clear").addEventListener("click", function(){
+      onClear();
+      inputEl.value = "";
+      selectedEl.classList.remove("show");
+      selectedEl.innerHTML = "";
+      inputEl.focus();
+    });
+  }
+
+  return { close: close };
+}
+
+setupSearch(elCustomerSearch, elCustomerResults, elSelectedCustomer, customers,
+  function(item){ selectedCustomer = item; },
+  function(){ selectedCustomer = null; }
+);
+setupSearch(elArticleSearch, elArticleResults, elSelectedArticle, articles,
+  function(item){ selectedArticle = item; },
+  function(){ selectedArticle = null; }
+);
+
+document.addEventListener("click", function(e){
+  if(!e.target.closest(".search-box")){
+    elCustomerResults.classList.remove("open");
+    elArticleResults.classList.remove("open");
+  }
+});
+
+function addProduct(){
+  if(!selectedArticle){ toast("⚠️ Odaberite artikal / Kies een artikel", "err"); return; }
+  var aantal = elAantal.value;
+  if(!aantal || Number(aantal) <= 0){ toast("⚠️ Vul aantal in / Unesite broj", "err"); return; }
+
+  retourProducts.push({
+    code: selectedArticle.code,
+    name: selectedArticle.name,
+    aantal: Number(aantal),
+    opmerking: elProductOpmerking.value.trim()
+  });
+
+  renderProducts();
+  selectedArticle = null;
+  elArticleSearch.value = "";
+  elSelectedArticle.classList.remove("show");
+  elSelectedArticle.innerHTML = "";
+  elAantal.value = "";
+  elProductOpmerking.value = "";
+  toast("✓ Artikal dodan / Artikel toegevoegd", "ok");
+}
+
+function renderProducts(){
+  if(!retourProducts.length){
+    elProductList.innerHTML = '<div class="empty"><span class="big">📦</span>Nog geen artikelen<span class="bs">Još nema artikala</span></div>';
+    return;
+  }
+  var html = "";
+  for(var i=0; i<retourProducts.length; i++){
+    var p = retourProducts[i];
+    html += '<div class="product-card"><h3>'+escapeHtml(p.code)+' - '+escapeHtml(p.name)+'</h3><p><strong>Aantal / Broj:</strong> '+p.aantal+' stuks / komada</p>'+(p.opmerking?'<p><strong>Opmerking / Komentar:</strong> '+escapeHtml(p.opmerking)+'</p>':'')+'<button class="btn-delete" data-idx="'+i+'">🗑 Verwijderen / Obriši</button></div>';
+  }
+  elProductList.innerHTML = html;
+  var buttons = elProductList.querySelectorAll(".btn-delete");
+  for(var j=0; j<buttons.length; j++){
+    (function(idx){ buttons[idx].addEventListener("click", function(){ retourProducts.splice(idx,1); renderProducts(); }); })(j);
+  }
+}
+
+function saveRetour(){
+  if(!firebaseReady){
+    toast("⚠️ Cloud nije spreman! / Cloud niet klaar!", "err");
+    return;
+  }
+
+  var datum = elDatum.value;
+  var chauffeur = elChauffeur.value.trim();
+  var reden = elRetourreden.value;
+  var opmerking = elAlgemeneOpmerking.value.trim();
+
+  if(!datum){ toast("⚠️ Vul datum in / Unesite datum", "err"); return; }
+  if(!chauffeur){ toast("⚠️ Vul chauffeur in / Unesite vozača", "err"); return; }
+  if(!selectedCustomer){ toast("⚠️ Odaberite kupca / Selecteer klant", "err"); return; }
+  if(!reden){ toast("⚠️ Odaberite razlog / Selecteer reden", "err"); return; }
+  if(!retourProducts.length){ toast("⚠️ Dodajte artikal / Voeg artikel toe", "err"); return; }
+
+  setStatus("syncing", "Spremanje...");
+
+  var retourId = Date.now();
+  var retour = {
+    id: retourId,
+    datum: datum,
+    chauffeur: chauffeur,
+    klantcode: selectedCustomer.code,
+    klantnaam: selectedCustomer.name,
+    reden: reden,
+    algemeneOpmerking: opmerking,
+    artikelen: JSON.parse(JSON.stringify(retourProducts)),
+    aangemaakt: new Date().toLocaleString("nl-NL"),
+    deviceId: DEVICE_ID,
+    deviceName: DEVICE_NAME
+  };
+
+  db.ref("retours/" + retourId).set(retour)
+    .then(function(){
+      setStatus("synced", "☁️ Spremljeno!");
+      resetForm(false);
+      toast("✓ Spremljeno u cloud! / Opgeslagen in cloud!", "ok");
+    })
+    .catch(function(error){
+      setStatus("error", "Greška!");
+      toast("❌ Greška: " + error.code, "err");
+    });
+}
+
+function deleteRetour(id){
+  if(!confirm("Obrisati povratnicu? / Retour verwijderen?")) return;
+  db.ref("retours/" + id).remove()
+    .then(function(){ toast("✓ Obrisano / Verwijderd", "ok"); })
+    .catch(function(error){ toast("❌ Greška: " + error.message, "err"); });
+}
+
+function resetForm(confirmUser){
+  if(confirmUser && (retourProducts.length || elChauffeur.value || selectedCustomer)){
+    if(!confirm("Obrisati formular? / Gegevens wissen?")) return;
+  }
+  elDatum.value = new Date().toISOString().slice(0,10);
+  elChauffeur.value = "";
+  elCustomerSearch.value = "";
+  selectedCustomer = null;
+  elSelectedCustomer.classList.remove("show");
+  elSelectedCustomer.innerHTML = "";
+  elRetourreden.value = "";
+  elAlgemeneOpmerking.value = "";
+  selectedArticle = null;
+  elArticleSearch.value = "";
+  elSelectedArticle.classList.remove("show");
+  elSelectedArticle.innerHTML = "";
+  elAantal.value = "";
+  elProductOpmerking.value = "";
+  retourProducts = [];
+  renderProducts();
+}
+
+function renderRetours(){
+  var retours = retoursData;
+  var totaalStuks = 0;
+  for(var i=0; i<retours.length; i++){
+    if(retours[i].artikelen){
+      for(var j=0; j<retours[i].artikelen.length; j++){
+        totaalStuks += Number(retours[i].artikelen[j].aantal)||0;
+      }
+    }
+  }
+  elStatRetours.textContent = retours.length;
+  elStatStuks.textContent = totaalStuks;
+  elRetourCount.textContent = retours.length > 0 ? "(" + retours.length + " cloud)" : "";
+
+  if(!retours.length){
+    elRetourList.innerHTML = '<div class="empty"><span class="big">🗂️</span>Nog geen retouren<span class="bs">Još nema povratnica</span></div>';
+    return;
+  }
+  var html = "";
+  for(var r=0; r<retours.length; r++){
+    var retour = retours[r];
+    var artikelen = "";
+    if(retour.artikelen){
+      for(var a=0; a<retour.artikelen.length; a++){
+        var art = retour.artikelen[a];
+        artikelen += '<li><strong>'+escapeHtml(art.code)+'</strong> - '+escapeHtml(art.name)+' - '+art.aantal+' komada / stuks</li>';
+      }
+    }
+    var dev = retour.deviceName ? ' <span style="font-size:11px;color:var(--muted)">('+escapeHtml(retour.deviceName)+')</span>' : '';
+    html += '<div class="retour-card"><h3>Povratnica / Retour - '+escapeHtml(retour.datum)+dev+'</h3><span class="badge">'+escapeHtml(retour.reden)+'</span><p style="margin-top:10px"><strong>Vozač / Chauffeur:</strong> '+escapeHtml(retour.chauffeur)+'</p><p><strong>Kupac / Klant:</strong> '+escapeHtml(retour.klantcode)+' - '+escapeHtml(retour.klantnaam)+'</p><p><strong>Artikli / Artikelen:</strong></p><ul>'+artikelen+'</ul>'+(retour.algemeneOpmerking?'<p><strong>Komentar / Opmerking:</strong> '+escapeHtml(retour.algemeneOpmerking)+'</p>':'')+'<p class="meta">Registrirano / Geregistreerd: '+escapeHtml(retour.aangemaakt)+'</p><button class="btn-delete btn-del-retour" data-id="'+retour.id+'">🗑 Obrisati / Verwijderen</button></div>';
+  }
+  elRetourList.innerHTML = html;
+  var delButtons = elRetourList.querySelectorAll(".btn-del-retour");
+  for(var k=0; k<delButtons.length; k++){
+    (function(btn){
+      btn.addEventListener("click", function(){ deleteRetour(Number(btn.getAttribute("data-id"))); });
+    })(delButtons[k]);
+  }
+}
+
+function exportCSV(){
+  if(!retoursData.length){ toast("Nema podataka / Geen data", "err"); return; }
+  var csv = "Datum;Chauffeur/Vozac;Klantnummer;Klantnaam;Razlog/Reden;Artikelnr;Productnaam;Aantal komada;Opmerking;Algemene opmerking;Uredjaj\n";
+  for(var i=0; i<retoursData.length; i++){
+    var r = retoursData[i];
+    if(r.artikelen){
+      for(var j=0; j<r.artikelen.length; j++){
+        var a = r.artikelen[j];
+        csv += [r.datum, r.chauffeur, r.klantcode, r.klantnaam, r.reden,
+                a.code, a.name, a.aantal, a.opmerking||"", r.algemeneOpmerking||"", r.deviceName||""]
+               .map(function(v){ v = String(v==null?"":v); if(v.indexOf(";")>-1||v.indexOf('"')>-1||v.indexOf("\n")>-1) return '"'+v.replace(/"/g,'""')+'"'; return v; }).join(";") + "\n";
+      }
+    }
+  }
+  var blob = new Blob(["\ufeff"+csv], {type:"text/csv;charset=utf-8;"});
+  var url = URL.createObjectURL(blob);
+  var link = document.createElement("a");
+  link.href = url;
+  link.download = "povratnice_retouren_" + new Date().toISOString().slice(0,10) + ".csv";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+  toast("✓ CSV preuzet / Gedownload", "ok");
+}
+
+document.getElementById("btnAddProduct").addEventListener("click", addProduct);
+document.getElementById("btnSave").addEventListener("click", saveRetour);
+document.getElementById("btnNew").addEventListener("click", function(){ resetForm(true); });
+document.getElementById("btnExport").addEventListener("click", exportCSV);
+
+renderProducts();
+initFirebase();
+</script>
+</body>
+</html>
